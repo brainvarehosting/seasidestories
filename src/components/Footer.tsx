@@ -12,43 +12,42 @@ export default function Footer() {
   ];
 
   return (
-    <footer style={{ background: "#141414", color: "white", padding: "64px 0 32px" }}>
+    <footer style={{ background: "#0f172a", color: "white", padding: "100px 0 40px" }}>
       <div className="container">
         {/* Top grid */}
-        <div style={{ display: "grid", gridTemplateColumns: "1.8fr 1fr 1fr 1fr", gap: 48, marginBottom: 56, paddingBottom: 48, borderBottom: "1px solid rgba(255,255,255,0.08)" }}>
+        <div style={{ display: "grid", gridTemplateColumns: "1.5fr 1fr 1fr 1fr", gap: 64, marginBottom: 80, paddingBottom: 64, borderBottom: "1px solid rgba(255,255,255,0.05)" }}>
           {/* Brand */}
           <div>
-            <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 16 }}>
+            <div style={{ display: "flex", alignItems: "center", gap: 16, marginBottom: 24 }}>
               <div style={{
-                width: 36, height: 36, borderRadius: "50%", border: "1.5px solid rgba(255,255,255,0.2)",
+                width: 44, height: 44, borderRadius: 0, border: "1px solid rgba(255,255,255,0.15)",
                 display: "flex", alignItems: "center", justifyContent: "center",
               }}>
-                <Image src="/logo.svg" alt="Seaside Stories" width={24} height={24}
+                <Image src="/logo.svg" alt="Seaside Stories" width={28} height={28}
                   style={{ filter: "brightness(0) invert(1)", opacity: 0.9 }} />
               </div>
               <div>
-                <div style={{ fontFamily: "'Bebas Neue', sans-serif", fontSize: 16, letterSpacing: "0.06em" }}>SEASIDE STORIES</div>
-                <div style={{ fontSize: 9, letterSpacing: "0.14em", color: "rgba(255,255,255,0.4)", textTransform: "uppercase" }}>Kerala, India</div>
+                <div style={{ fontFamily: "'Playfair Display', serif", fontSize: 20, letterSpacing: "0.02em" }}>Seaside Stories</div>
+                <div style={{ fontSize: 10, letterSpacing: "0.2em", color: "#b2a384", textTransform: "uppercase", fontWeight: 700 }}>Kerala, India</div>
               </div>
             </div>
-            <p style={{ color: "rgba(255,255,255,0.45)", fontSize: 14, lineHeight: 1.8, maxWidth: 240 }}>
-              Kerala&apos;s most intimate seaside villa experience. Write your own chapter.
+            <p style={{ color: "rgba(255,255,255,0.5)", fontSize: 15, lineHeight: 1.8, maxWidth: 300, fontWeight: 300 }}>
+              An exclusive beach retreat where luxury meets the rhythm of the ocean. Experience Kerala&apos;s most intimate villa stay.
             </p>
           </div>
 
           {/* Link columns */}
           {cols.map((col) => (
             <div key={col.heading}>
-              <p style={{ fontSize: 11, fontWeight: 700, letterSpacing: "0.12em", textTransform: "uppercase", color: "rgba(255,255,255,0.5)", marginBottom: 20 }}>
+              <p style={{ fontSize: 11, fontWeight: 700, letterSpacing: "0.2em", textTransform: "uppercase", color: "rgba(255,255,255,0.3)", marginBottom: 32 }}>
                 {col.heading}
               </p>
               {col.links.map((l) => (
                 <Link key={l.label} href={l.href} style={{
                   display: "block", color: "rgba(255,255,255,0.6)", textDecoration: "none",
-                  fontSize: 14, marginBottom: 12, transition: "color 0.2s",
+                  fontSize: 14, marginBottom: 16, transition: "all 0.3s ease", fontWeight: 300
                 }}
-                onMouseEnter={(e) => (e.currentTarget as HTMLElement).style.color = "white"}
-                onMouseLeave={(e) => (e.currentTarget as HTMLElement).style.color = "rgba(255,255,255,0.6)"}
+                className="footer-link"
                 >{l.label}</Link>
               ))}
             </div>
@@ -56,22 +55,25 @@ export default function Footer() {
         </div>
 
         {/* Bottom row */}
-        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: 12 }}>
-          <p style={{ color: "rgba(255,255,255,0.3)", fontSize: 13 }}>
-            © {year} Seaside Stories. All rights reserved.
+        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: 24 }}>
+          <p style={{ color: "rgba(255,255,255,0.3)", fontSize: 13, fontWeight: 300 }}>
+            © {year} Seaside Stories Villa. All rights reserved.
           </p>
-          <p style={{ color: "rgba(255,255,255,0.3)", fontSize: 13, display: "flex", alignItems: "center", gap: 5 }}>
-            Made with <Heart size={11} color="#c278d4" fill="#c278d4" /> in Kerala
-          </p>
+          <div style={{ display: "flex", gap: 32 }}>
+             <p style={{ color: "rgba(255,255,255,0.3)", fontSize: 13, display: "flex", alignItems: "center", gap: 8, fontWeight: 300 }}>
+              Made with <Heart size={12} color="#b2a384" strokeWidth={1} /> in Kerala
+            </p>
+          </div>
         </div>
       </div>
 
       <style>{`
-        @media (max-width: 900px) {
-          footer .container > div:first-child { grid-template-columns: 1fr 1fr !important; }
+        .footer-link:hover { color: #b2a384 !important; transform: translateX(4px); }
+        @media (max-width: 1024px) {
+          footer .container > div:first-child { grid-template-columns: 1fr 1fr !important; gap: 48px !important; }
         }
-        @media (max-width: 600px) {
-          footer .container > div:first-child { grid-template-columns: 1fr !important; gap: 32px !important; }
+        @media (max-width: 640px) {
+          footer .container > div:first-child { grid-template-columns: 1fr !important; }
         }
       `}</style>
     </footer>

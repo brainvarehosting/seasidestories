@@ -12,166 +12,144 @@ export default function Hero() {
   }, []);
 
   return (
-    <section style={{ position: "relative", height: "100vh", minHeight: 640, overflow: "hidden", background: "#2d4a54" }}>
-      {/* Video */}
-      <video ref={videoRef} autoPlay muted loop playsInline style={{
-        position: "absolute", inset: 0, width: "100%", height: "100%",
-        objectFit: "cover", opacity: 0.7,
-      }}>
+    <section style={{ position: "relative", height: "100vh", minHeight: 700, overflow: "hidden", background: "#0f172a" }}>
+      {/* Video Background */}
+      <video
+        autoPlay
+        muted
+        loop
+        playsInline
+        style={{
+          position: "absolute",
+          inset: 0,
+          width: "100%",
+          height: "100%",
+          objectFit: "cover",
+          opacity: 0.6,
+        }}
+      >
         <source src="/video/seaside-stories.mp4" type="video/mp4" />
       </video>
 
-      {/* Gradient overlay — heavier at bottom for text legibility */}
+      {/* Sophisticated Gradient Overlays */}
       <div style={{
         position: "absolute", inset: 0,
-        background: "linear-gradient(to bottom, rgba(20,20,20,0.25) 0%, rgba(20,20,20,0.1) 40%, rgba(20,20,20,0.6) 75%, rgba(20,20,20,0.85) 100%)",
+        background: "radial-gradient(circle at center, transparent 0%, rgba(15,23,42,0.4) 100%)",
+      }} />
+      <div style={{
+        position: "absolute", inset: 0,
+        background: "linear-gradient(to bottom, rgba(15,23,42,0.6) 0%, transparent 40%, rgba(15,23,42,0.8) 100%)",
       }} />
 
-      {/* Center content */}
+      {/* Content Container */}
       <div style={{
         position: "absolute", inset: 0, display: "flex", flexDirection: "column",
         alignItems: "center", justifyContent: "center", textAlign: "center", padding: "0 24px",
-        paddingBottom: 160,
+        paddingBottom: 120,
       }}>
-        {/* Logo mark */}
-        <div style={{
-          width: 80, height: 80, marginBottom: 24,
-          border: "1.5px solid rgba(255,255,255,0.5)", borderRadius: "50%",
-          display: "flex", alignItems: "center", justifyContent: "center",
-          background: "rgba(255,255,255,0.08)", backdropFilter: "blur(8px)",
+        {/* Subtle Location Tag */}
+        <div className="reveal" style={{
+          display: "inline-flex", alignItems: "center", gap: 10,
+          color: "#b2a384", marginBottom: 32, letterSpacing: "0.25em",
+          fontSize: 12, fontWeight: 600, textTransform: "uppercase"
         }}>
-          <Image src="/logo.svg" alt="Seaside Stories" width={56} height={56}
-            style={{ filter: "brightness(0) invert(1)", opacity: 0.95 }}
-          />
+          Kerala&apos;s Exclusive Beach Retreat
         </div>
 
-        {/* Location tag */}
-        <div style={{
-          display: "inline-flex", alignItems: "center", gap: 6,
-          background: "rgba(255,255,255,0.12)", backdropFilter: "blur(8px)",
-          border: "1px solid rgba(255,255,255,0.2)",
-          color: "rgba(255,255,255,0.9)", padding: "5px 14px", borderRadius: 20,
-          fontSize: 11, fontWeight: 600, letterSpacing: "0.12em", textTransform: "uppercase",
-          marginBottom: 20,
+        {/* Hero Headline — Playfair Display */}
+        <h1 className="heading-xl" style={{
+          color: "white", marginBottom: 32, maxWidth: 1000,
+          letterSpacing: "-0.01em", textShadow: "0 10px 40px rgba(0,0,0,0.5)"
         }}>
-          <span style={{ width: 5, height: 5, borderRadius: "50%", background: "#c278d4", display: "inline-block" }} />
-          Kerala, India
-        </div>
-
-        {/* Headline */}
-        <h1 style={{
-          fontFamily: "'Bebas Neue', sans-serif",
-          fontSize: "clamp(72px, 12vw, 140px)",
-          lineHeight: 0.92, letterSpacing: "0.01em",
-          color: "white", marginBottom: 20,
-        }}>
-          Seaside<br />
-          <span style={{ color: "#c278d4" }}>Stories</span>
+          Where Every Wave<br />
+          <i style={{ color: "#b2a384" }}>Tells a Story</i>
         </h1>
 
         <p style={{
-          color: "rgba(255,255,255,0.8)", fontSize: "clamp(15px, 2vw, 18px)",
-          lineHeight: 1.7, maxWidth: 460, marginBottom: 36, fontWeight: 300,
+          color: "rgba(255,255,255,0.9)", fontSize: "clamp(18px, 2.5vw, 22px)",
+          lineHeight: 1.6, maxWidth: 640, marginBottom: 48, fontWeight: 300,
+          fontFamily: "'Inter', sans-serif",
         }}>
-          Write your own chapter of relaxation, discovery, and connection on Kerala&apos;s pristine coastline.
+          Immerse yourself in the ultimate beachfront luxury. A private sanctuary designed for the discerning traveler.
         </p>
 
-        <div style={{ display: "flex", gap: 12, flexWrap: "wrap", justifyContent: "center" }}>
-          <Link href="/book" className="btn btn-white" style={{ padding: "14px 32px", fontSize: 14, borderRadius: 12 }}>
-            Book Your Stay
+        <div style={{ display: "flex", gap: 20, flexWrap: "wrap", justifyContent: "center" }}>
+          <Link href="/book" className="btn btn-accent" style={{ padding: "18px 48px" }}>
+            Check Availability
           </Link>
-          <Link href="/gallery" style={{
-            display: "inline-flex", alignItems: "center", gap: 8,
-            color: "rgba(255,255,255,0.9)", fontSize: 14, fontWeight: 500,
-            padding: "14px 24px", borderRadius: 12,
-            border: "1.5px solid rgba(255,255,255,0.3)", textDecoration: "none",
-            background: "rgba(255,255,255,0.06)", backdropFilter: "blur(8px)",
-            transition: "all 0.2s",
-          }}
-          onMouseEnter={(e) => (e.currentTarget as HTMLElement).style.borderColor = "rgba(255,255,255,0.7)"}
-          onMouseLeave={(e) => (e.currentTarget as HTMLElement).style.borderColor = "rgba(255,255,255,0.3)"}
-          >
-            View Gallery
+          <Link href="/gallery" className="btn" style={{ 
+            background: "transparent", color: "white", border: "1px solid rgba(255,255,255,0.4)",
+            backdropFilter: "blur(10px)"
+          }}>
+            Explore the Villa
           </Link>
         </div>
       </div>
 
-      {/* Bottom booking bar */}
+      {/* Refined Search Bar */}
       <div style={{
-        position: "absolute", bottom: 0, left: 0, right: 0,
-        padding: "0 24px 32px",
+        position: "absolute", bottom: 60, left: 0, right: 0,
+        padding: "0 24px",
       }}>
         <div style={{
-          maxWidth: 880, margin: "0 auto",
-          background: "rgba(255,255,255,0.96)", backdropFilter: "blur(20px)",
-          borderRadius: 20, overflow: "hidden",
-          boxShadow: "0 8px 48px rgba(0,0,0,0.25)",
-          display: "grid",
-          gridTemplateColumns: "1fr 1fr 1fr auto",
+          maxWidth: 1000, margin: "0 auto",
+          background: "white", borderRadius: "8px",
+          display: "grid", gridTemplateColumns: "1fr 1fr 1fr auto",
+          boxShadow: "0 25px 50px -12px rgba(0, 0, 0, 0.5)",
+          padding: 8
         }}>
-          <HeroField label="Check in" placeholder="Add date" type="date" />
-          <div style={{ width: 1, background: "#e8e6e1", margin: "16px 0" }} />
-          <HeroField label="Check out" placeholder="Add date" type="date" />
-          <div style={{ width: 1, background: "#e8e6e1", margin: "16px 0" }} />
-          <HeroField label="Guests" placeholder="1 guest" type="number" />
-          <div style={{ display: "flex", alignItems: "center", padding: "12px 16px" }}>
-            <Link href="/book" style={{
-              display: "inline-flex", alignItems: "center", justifyContent: "center",
-              background: "#c278d4", color: "white", border: "none",
-              borderRadius: 14, padding: "14px 22px", cursor: "pointer",
-              fontSize: 13, fontWeight: 600, gap: 6, textDecoration: "none",
-              transition: "all 0.2s", whiteSpace: "nowrap",
-            }}
-            onMouseEnter={(e) => { (e.currentTarget as HTMLElement).style.background = "#9b4ab0"; }}
-            onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.background = "#c278d4"; }}
-            >
-              Search →
-            </Link>
+          <div style={{ padding: "12px 24px" }}>
+            <label style={{ display: "block", fontSize: 10, fontWeight: 700, color: "#94a3b8", textTransform: "uppercase", marginBottom: 4 }}>Check In</label>
+            <input type="date" style={{ border: "none", outline: "none", fontSize: 15, width: "100%", color: "#0f172a", background: "transparent" }} />
           </div>
+          <div style={{ width: 1, background: "#e2e8f0", margin: "12px 0" }} />
+          <div style={{ padding: "12px 24px" }}>
+            <label style={{ display: "block", fontSize: 10, fontWeight: 700, color: "#94a3b8", textTransform: "uppercase", marginBottom: 4 }}>Check Out</label>
+            <input type="date" style={{ border: "none", outline: "none", fontSize: 15, width: "100%", color: "#0f172a", background: "transparent" }} />
+          </div>
+          <div style={{ width: 1, background: "#e2e8f0", margin: "12px 0" }} />
+          <div style={{ padding: "12px 24px" }}>
+            <label style={{ display: "block", fontSize: 10, fontWeight: 700, color: "#94a3b8", textTransform: "uppercase", marginBottom: 4 }}>Guests</label>
+            <select style={{ border: "none", outline: "none", fontSize: 15, width: "100%", color: "#0f172a", background: "transparent", cursor: "pointer" }}>
+              <option>2 Adults</option>
+              <option>4 Adults</option>
+              <option>Full Villa (10+)</option>
+            </select>
+          </div>
+          <button style={{
+            background: "#0f172a", color: "white", border: "none", borderRadius: "4px",
+            padding: "0 40px", fontSize: 14, fontWeight: 600, textTransform: "uppercase",
+            letterSpacing: "0.05em", cursor: "pointer", transition: "all 0.2s"
+          }}>Search</button>
         </div>
       </div>
 
       {/* Scroll hint */}
       <div style={{
-        position: "absolute", bottom: 120, right: 32,
-        display: "flex", flexDirection: "column", alignItems: "center", gap: 6,
-        color: "rgba(255,255,255,0.5)", fontSize: 10, letterSpacing: "0.12em",
-        textTransform: "uppercase",
+        position: "absolute", bottom: 40, left: 40,
+        display: "flex", flexDirection: "column", alignItems: "center", gap: 12,
+        color: "rgba(255,255,255,0.6)", fontSize: 10, fontWeight: 700, letterSpacing: "0.2em",
+        textTransform: "uppercase", zIndex: 10
       }}>
-        <span>Scroll</span>
+        <span style={{ writingMode: "vertical-rl", marginBottom: 12 }}>Explore</span>
         <ChevronDown size={14} style={{ animation: "bounce 2s infinite" }} />
       </div>
 
       <style>{`
+        @media (max-width: 768px) {
+          .heading-xl { font-size: 48px !important; }
+          div[style*="grid-template-columns: 1fr 1fr 1fr auto"] { 
+            grid-template-columns: 1fr !important;
+            gap: 0 !important;
+          }
+          div[style*="width: 1"] { display: none !important; }
+          button[style*="background: #0f172a"] { padding: 16px !important; margin-top: 8px !important; }
+        }
         @keyframes bounce {
           0%, 100% { transform: translateY(0); }
-          50% { transform: translateY(5px); }
-        }
-        @media (max-width: 768px) {
-          .hero-bar { grid-template-columns: 1fr 1fr !important; }
+          50% { transform: translateY(6px); }
         }
       `}</style>
     </section>
-  );
-}
-
-function HeroField({ label, placeholder, type }: { label: string; placeholder: string; type: string }) {
-  return (
-    <div style={{ padding: "16px 20px", cursor: "pointer" }}>
-      <div style={{ fontSize: 10, fontWeight: 700, letterSpacing: "0.1em", textTransform: "uppercase", color: "#141414", marginBottom: 4 }}>
-        {label}
-      </div>
-      <input
-        type={type === "number" ? "number" : "date"}
-        placeholder={placeholder}
-        min={type === "number" ? "1" : undefined}
-        max={type === "number" ? "10" : undefined}
-        defaultValue={type === "number" ? "2" : undefined}
-        style={{
-          border: "none", outline: "none", fontSize: 14, color: "#717171",
-          background: "transparent", width: "100%", fontFamily: "inherit", cursor: "pointer",
-        }}
-      />
-    </div>
   );
 }

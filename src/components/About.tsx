@@ -22,85 +22,84 @@ export default function About() {
   }, []);
 
   return (
-    <section id="about" className="section" style={{ background: "#fff" }} ref={ref}>
+    <section id="about" className="section" style={{ background: "#ffffff" }} ref={ref}>
       <div className="container">
         <div style={{
           display: "grid",
-          gridTemplateColumns: "1fr 1fr",
-          gap: 80,
+          gridTemplateColumns: "1fr 1.1fr",
+          gap: 100,
           alignItems: "center",
         }}>
           {/* Images column */}
           <div className="reveal" style={{ position: "relative" }}>
             {/* Main image */}
             <div style={{
-              borderRadius: 24, overflow: "hidden",
+              borderRadius: 4, overflow: "hidden",
               aspectRatio: "4/5",
-              boxShadow: "0 2px 8px rgba(0,0,0,0.08), 0 24px 48px rgba(0,0,0,0.12)",
+              position: "relative",
+              boxShadow: "0 40px 80px -20px rgba(0,0,0,0.1)",
             }}>
               <Image
-                src="/photos/0J6A0270.JPG"
-                alt="Seaside Stories villa"
+                src="/photos/0J6A0260.JPG"
+                alt="Seaside Stories Master Suite"
                 fill
                 style={{ objectFit: "cover" }}
                 sizes="(max-width: 768px) 100vw, 50vw"
               />
             </div>
 
-            {/* Floating image */}
+            {/* Floating detail image */}
             <div style={{
-              position: "absolute", bottom: -32, right: -32,
-              width: 200, height: 240,
-              borderRadius: 20, overflow: "hidden",
-              border: "4px solid #fff",
-              boxShadow: "0 4px 24px rgba(0,0,0,0.15)",
+              position: "absolute", bottom: -50, right: -50,
+              width: 240, height: 300,
+              borderRadius: 4, overflow: "hidden",
+              border: "12px solid #ffffff",
+              boxShadow: "0 20px 40px rgba(0,0,0,0.08)",
             }}>
               <Image
-                src="/photos/0J6A0284.JPG"
-                alt="Villa detail"
+                src="/photos/0J6A0283.JPG"
+                alt="Coastal details"
                 fill
                 style={{ objectFit: "cover" }}
-                sizes="200px"
+                sizes="240px"
               />
-            </div>
-
-            {/* Stat badge */}
-            <div style={{
-              position: "absolute", top: 32, left: -24,
-              background: "#2d4a54", color: "white",
-              borderRadius: 16, padding: "20px 24px",
-              boxShadow: "0 8px 32px rgba(45,74,84,0.35)",
-            }}>
-              <div style={{ fontFamily: "'Bebas Neue', sans-serif", fontSize: 40, lineHeight: 1 }}>100m</div>
-              <div style={{ fontSize: 12, color: "#92a8b4", letterSpacing: "0.06em", textTransform: "uppercase" }}>from the beach</div>
             </div>
           </div>
 
           {/* Text column */}
-          <div className="reveal" style={{ transitionDelay: "0.15s" }}>
-            <p className="label-tag">About Seaside Stories</p>
-            <div className="divider" />
-            <h2 className="heading-lg" style={{ marginBottom: 24 }}>
-              WHERE THE SEA<br />TELLS YOUR STORY
+          <div className="reveal" style={{ transitionDelay: "0.2s" }}>
+            <p className="label-tag">Our Philosophy</p>
+            <h2 className="heading-lg" style={{ marginBottom: 32 }}>
+              A sanctuary for<br />
+              the <i style={{ color: "#b2a384" }}>soul</i>
             </h2>
-            <p style={{ color: "#717171", fontSize: 16, lineHeight: 1.85, marginBottom: 20 }}>
-              Nestled along Kerala&apos;s pristine coastline, Seaside Stories is more than a villa — it&apos;s a sanctuary where the rhythm of the waves becomes the soundtrack of your most cherished memories.
+            <p style={{ color: "#475569", fontSize: 18, lineHeight: 1.8, marginBottom: 28, fontWeight: 300 }}>
+              At Seaside Stories, we believe that true luxury lies in the details. Nestled along the tranquil coast of Kerala, our villa is a curated blend of modern elegance and timeless coastal charm.
             </p>
-            <p style={{ color: "#717171", fontSize: 16, lineHeight: 1.85, marginBottom: 40 }}>
-              Every corner has been thoughtfully curated to celebrate the beauty of the coast, local heritage, and the art of doing absolutely nothing — except feeling completely alive.
+            <p style={{ color: "#475569", fontSize: 18, lineHeight: 1.8, marginBottom: 48, fontWeight: 300 }}>
+              From the architectural symmetry to the curated local art, every element is designed to evoke a sense of peace. Whether you&apos;re watching the sunset from our private deck or waking up to the sound of waves, your story begins here.
             </p>
 
             {/* Stats row */}
-            <div style={{ display: "flex", gap: 40, marginBottom: 44, paddingBottom: 40, borderBottom: "1px solid #e8e6e1" }}>
+            <div style={{ 
+              display: "grid", gridTemplateColumns: "repeat(3, 1fr)", 
+              gap: 32, marginBottom: 56, paddingTop: 40, borderTop: "1px solid #e2e8f0" 
+            }}>
               {stats.map((s) => (
                 <div key={s.label}>
-                  <div style={{ fontFamily: "'Bebas Neue', sans-serif", fontSize: 44, lineHeight: 1, color: "#141414" }}>{s.value}</div>
-                  <div style={{ fontSize: 12, color: "#717171", marginTop: 4, textTransform: "uppercase", letterSpacing: "0.08em" }}>{s.label}</div>
+                  <div style={{ 
+                    fontFamily: "'Playfair Display', serif", 
+                    fontSize: 42, color: "#0f172a", marginBottom: 4 
+                  }}>{s.value}</div>
+                  <div style={{ 
+                    fontSize: 11, color: "#94a3b8", fontWeight: 700, 
+                    textTransform: "uppercase", letterSpacing: "0.15em" 
+                  }}>{s.label}</div>
                 </div>
               ))}
             </div>
 
-            <Link href="/book" className="btn btn-dark">Reserve Your Stay →</Link>
+            <Link href="/book" className="btn btn-dark">Reserve Your Escape</Link>
           </div>
         </div>
       </div>

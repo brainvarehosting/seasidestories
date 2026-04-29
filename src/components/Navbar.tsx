@@ -22,73 +22,66 @@ export default function Navbar() {
   ];
 
   const navStyle: React.CSSProperties = {
-    position: "fixed", top: 0, left: 0, right: 0, zIndex: 100,
-    height: 72,
+    position: "fixed", top: 0, left: 0, right: 0, zIndex: 1000,
+    height: 80,
     display: "flex", alignItems: "center",
-    transition: "background 0.4s ease, box-shadow 0.4s ease, backdrop-filter 0.4s ease",
-    background: scrolled ? "rgba(255,255,255,0.96)" : "transparent",
+    transition: "all 0.5s cubic-bezier(0.4, 0, 0.2, 1)",
+    background: scrolled ? "rgba(255,255,255,0.98)" : "transparent",
     backdropFilter: scrolled ? "blur(12px)" : "none",
-    boxShadow: scrolled ? "0 1px 0 rgba(0,0,0,0.08)" : "none",
+    boxShadow: scrolled ? "0 1px 0 rgba(0,0,0,0.05)" : "none",
   };
 
-  const linkColor = scrolled ? "#141414" : "rgba(255,255,255,0.92)";
+  const linkColor = scrolled ? "#0f172a" : "rgba(255,255,255,0.95)";
 
   return (
     <>
       <nav style={navStyle}>
         <div className="container" style={{ display: "flex", alignItems: "center", justifyContent: "space-between", width: "100%" }}>
           {/* Logo */}
-          <Link href="/" style={{ display: "flex", alignItems: "center", gap: 10, textDecoration: "none" }}>
+          <Link href="/" style={{ display: "flex", alignItems: "center", gap: 16, textDecoration: "none" }}>
             <div style={{
-              width: 38, height: 38,
-              background: scrolled ? "#2d4a54" : "rgba(255,255,255,0.15)",
-              borderRadius: "50%",
-              border: scrolled ? "none" : "1.5px solid rgba(255,255,255,0.5)",
+              width: 44, height: 44, position: "relative",
+              background: scrolled ? "#0f172a" : "transparent",
+              border: scrolled ? "none" : "1px solid rgba(255,255,255,0.4)",
               display: "flex", alignItems: "center", justifyContent: "center",
-              transition: "all 0.4s ease", flexShrink: 0, overflow: "hidden",
-              backdropFilter: scrolled ? "none" : "blur(4px)",
+              transition: "all 0.4s ease", flexShrink: 0,
             }}>
               <Image
                 src="/logo.svg"
                 alt="Seaside Stories"
                 width={28}
                 height={28}
-                style={{ color: "white", filter: scrolled ? "invert(1)" : "brightness(0) invert(1)" }}
+                style={{ filter: scrolled ? "brightness(0) invert(1)" : "brightness(0) invert(1)" }}
               />
             </div>
             <div>
               <div style={{
-                fontFamily: "'Bebas Neue', sans-serif",
-                fontSize: 17, lineHeight: 1, letterSpacing: "0.06em",
-                color: scrolled ? "#141414" : "white",
+                fontFamily: "'Playfair Display', serif",
+                fontSize: 22, lineHeight: 1, letterSpacing: "0.01em",
+                color: scrolled ? "#0f172a" : "white",
                 transition: "color 0.4s",
-              }}>SEASIDE STORIES</div>
+              }}>Seaside Stories</div>
               <div style={{
-                fontSize: 9, letterSpacing: "0.14em", textTransform: "uppercase",
-                color: scrolled ? "#717171" : "rgba(255,255,255,0.65)",
-                transition: "color 0.4s", marginTop: 1,
+                fontSize: 10, letterSpacing: "0.2em", textTransform: "uppercase",
+                color: scrolled ? "#b2a384" : "rgba(255,255,255,0.7)",
+                transition: "color 0.4s", marginTop: 4, fontWeight: 700
               }}>Kerala, India</div>
             </div>
           </Link>
 
           {/* Desktop links */}
-          <div style={{ display: "flex", alignItems: "center", gap: 4 }} className="hidden md:flex">
+          <div style={{ display: "flex", alignItems: "center", gap: 8 }} className="hidden md:flex">
             {links.map((l) => (
               <Link key={l.href} href={l.href} style={{
                 color: linkColor, textDecoration: "none",
-                fontSize: 13, fontWeight: 500, padding: "8px 14px", borderRadius: 8,
-                transition: "all 0.2s", letterSpacing: "0.01em",
+                fontSize: 13, fontWeight: 600, padding: "8px 16px", borderRadius: 0,
+                transition: "all 0.3s", letterSpacing: "0.1em", textTransform: "uppercase"
               }}
-              onMouseEnter={(e) => { (e.currentTarget as HTMLElement).style.background = "rgba(255,255,255,0.12)"; }}
-              onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.background = "transparent"; }}
+              className="nav-link"
               >{l.label}</Link>
             ))}
-            <Link href="/book" className="btn btn-white" style={{
-              marginLeft: 12, fontSize: 13, padding: "10px 22px", borderRadius: 10,
-              background: scrolled ? "#141414" : "white",
-              color: scrolled ? "white" : "#141414",
-              boxShadow: scrolled ? "none" : "0 2px 12px rgba(0,0,0,0.15)",
-              transition: "all 0.4s",
+            <Link href="/book" className={scrolled ? "btn btn-dark" : "btn btn-white"} style={{
+              marginLeft: 24, fontSize: 13, padding: "14px 32px", borderRadius: 4,
             }}>
               Book Now
             </Link>
@@ -99,7 +92,7 @@ export default function Navbar() {
             style={{ background: "none", border: "none", color: linkColor, cursor: "pointer", padding: 8, display: "none" }}
             className="md:hidden"
           >
-            {mobileOpen ? <X size={22} /> : <Menu size={22} />}
+            {mobileOpen ? <X size={24} /> : <Menu size={24} />}
           </button>
         </div>
       </nav>
@@ -107,22 +100,30 @@ export default function Navbar() {
       {/* Mobile menu */}
       {mobileOpen && (
         <div style={{
-          position: "fixed", top: 72, left: 0, right: 0, zIndex: 99,
-          background: "rgba(255,255,255,0.98)", backdropFilter: "blur(16px)",
-          borderBottom: "1px solid #e8e6e1", padding: "16px 20px 24px",
+          position: "fixed", top: 80, left: 0, right: 0, zIndex: 999,
+          background: "#ffffff", padding: "32px 24px",
+          display: "flex", flexDirection: "column", gap: 8,
+          boxShadow: "0 40px 80px rgba(0,0,0,0.1)"
         }}>
           {links.map((l) => (
             <Link key={l.href} href={l.href} onClick={() => setMobileOpen(false)} style={{
-              display: "block", color: "#141414", textDecoration: "none",
-              padding: "13px 0", fontSize: 16, fontWeight: 500,
-              borderBottom: "1px solid #f3f2ef",
+              display: "block", color: "#0f172a", textDecoration: "none",
+              padding: "16px 0", fontSize: 13, fontWeight: 700,
+              borderBottom: "1px solid #f1f5f9", letterSpacing: "0.1em", textTransform: "uppercase"
             }}>{l.label}</Link>
           ))}
-          <Link href="/book" onClick={() => setMobileOpen(false)} className="btn btn-dark" style={{ marginTop: 16, width: "100%", justifyContent: "center" }}>
+          <Link href="/book" onClick={() => setMobileOpen(false)} className="btn btn-dark" style={{ marginTop: 24, width: "100%", justifyContent: "center" }}>
             Book Now
           </Link>
         </div>
       )}
+
+      <style>{`
+        .nav-link:hover { color: #b2a384 !important; opacity: 0.8; }
+        @media (max-width: 768px) {
+          button[style*="display: none"] { display: block !important; }
+        }
+      `}</style>
     </>
   );
 }

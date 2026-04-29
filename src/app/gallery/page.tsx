@@ -26,24 +26,23 @@ export default function GalleryPage() {
   return (
     <>
       <Navbar />
-      <main style={{ paddingTop: 72, background: "#fff" }}>
-        {/* Clean header */}
-        <div style={{ padding: "64px 0 48px", textAlign: "center", background: "#fff" }}>
+      <main style={{ paddingTop: 80, background: "#ffffff" }}>
+        {/* Header */}
+        <div style={{ padding: "100px 0 80px", textAlign: "center", background: "#f8fafc" }}>
           <div className="container">
-            <p className="label-tag" style={{ justifyContent: "center" }}>Visual Stories</p>
-            <div className="divider divider-center" />
-            <h1 className="heading-xl" style={{ marginBottom: 16 }}>OUR GALLERY</h1>
-            <p style={{ color: "#717171", fontSize: 16, maxWidth: 440, margin: "0 auto" }}>
-              {`${ALL_PHOTOS.length} moments captured along Kerala's coastline.`}
+            <p className="label-tag" style={{ justifyContent: "center" }}>The Collection</p>
+            <h1 className="heading-xl" style={{ marginBottom: 24 }}>Gallery</h1>
+            <p style={{ color: "#475569", fontSize: 18, maxWidth: 500, margin: "0 auto", fontWeight: 300 }}>
+              {`A visual exploration of Kerala's most intimate beach retreat. ${ALL_PHOTOS.length} curated moments of peace.`}
             </p>
           </div>
         </div>
 
         {/* Masonry grid */}
         <div style={{
-          padding: "0 24px 80px",
+          padding: "80px 24px",
           columns: 3,
-          columnGap: 8,
+          columnGap: 16,
           maxWidth: 1400,
           margin: "0 auto",
         }}>
@@ -53,11 +52,11 @@ export default function GalleryPage() {
               onClick={() => setLb(i)}
               style={{
                 breakInside: "avoid",
-                marginBottom: 8,
-                borderRadius: 12,
+                marginBottom: 16,
+                borderRadius: 0,
                 overflow: "hidden",
                 cursor: "pointer",
-                background: "#f3f2ef",
+                background: "#f1f5f9",
                 position: "relative",
               }}
             >
@@ -70,11 +69,10 @@ export default function GalleryPage() {
                   width: "100%",
                   height: "auto",
                   display: "block",
-                  transition: "transform 0.5s ease",
+                  transition: "transform 1.2s cubic-bezier(0.2, 0, 0.2, 1)",
                 }}
-                sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
-                onMouseEnter={(e) => (e.currentTarget as HTMLElement).style.transform = "scale(1.04)"}
-                onMouseLeave={(e) => (e.currentTarget as HTMLElement).style.transform = "scale(1)"}
+                sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                className="gallery-item"
               />
             </div>
           ))}
@@ -84,47 +82,44 @@ export default function GalleryPage() {
 
       {/* Lightbox */}
       {lb !== null && (
-        <div className="lightbox" onClick={() => setLb(null)}>
+        <div className="lightbox" onClick={() => setLb(null)} style={{ background: "rgba(15,23,42,0.98)", backdropFilter: "blur(10px)" }}>
           <button onClick={(e) => { e.stopPropagation(); setLb(null); }} style={{
-            position: "absolute", top: 20, right: 20,
-            background: "rgba(255,255,255,0.1)", border: "none", color: "white",
-            borderRadius: "50%", width: 48, height: 48, cursor: "pointer",
-            display: "flex", alignItems: "center", justifyContent: "center",
-          }}><X size={20} /></button>
+            position: "absolute", top: 40, right: 40,
+            background: "transparent", border: "none", color: "white",
+            cursor: "pointer", zIndex: 100
+          }}><X size={32} strokeWidth={1} /></button>
 
           <button onClick={(e) => { e.stopPropagation(); prev(); }} style={{
-            position: "absolute", left: 16,
-            background: "rgba(255,255,255,0.1)", border: "none", color: "white",
-            borderRadius: "50%", width: 52, height: 52, cursor: "pointer",
-            display: "flex", alignItems: "center", justifyContent: "center",
-          }}><ChevronLeft size={26} /></button>
+            position: "absolute", left: 40,
+            background: "transparent", border: "none", color: "white",
+            cursor: "pointer", zIndex: 100
+          }}><ChevronLeft size={48} strokeWidth={1} /></button>
 
-          <div style={{ position: "relative", width: "min(92vw, 1200px)", height: "min(88vh, 820px)" }}
+          <div style={{ position: "relative", width: "90vw", height: "80vh" }}
             onClick={(e) => e.stopPropagation()}>
             <Image src={`/photos/${ALL_PHOTOS[lb]}`} alt={`Photo ${lb + 1}`}
-              fill style={{ objectFit: "contain" }} sizes="92vw" priority />
+              fill style={{ objectFit: "contain" }} sizes="90vw" priority />
           </div>
 
           <button onClick={(e) => { e.stopPropagation(); next(); }} style={{
-            position: "absolute", right: 16,
-            background: "rgba(255,255,255,0.1)", border: "none", color: "white",
-            borderRadius: "50%", width: 52, height: 52, cursor: "pointer",
-            display: "flex", alignItems: "center", justifyContent: "center",
-          }}><ChevronRight size={26} /></button>
+            position: "absolute", right: 40,
+            background: "transparent", border: "none", color: "white",
+            cursor: "pointer", zIndex: 100
+          }}><ChevronRight size={48} strokeWidth={1} /></button>
 
           <div style={{
-            position: "absolute", bottom: 20, left: "50%", transform: "translateX(-50%)",
-            color: "rgba(255,255,255,0.5)", fontSize: 12, letterSpacing: "0.06em",
-            background: "rgba(0,0,0,0.4)", padding: "6px 16px", borderRadius: 20,
+            position: "absolute", bottom: 40, color: "rgba(255,255,255,0.5)",
+            fontSize: 12, letterSpacing: "0.2em", fontWeight: 300
           }}>{lb + 1} / {ALL_PHOTOS.length}</div>
         </div>
       )}
 
       <style>{`
-        @media (max-width: 768px) {
+        .gallery-item:hover { transform: scale(1.05); }
+        @media (max-width: 900px) {
           main > div:last-child { columns: 2 !important; }
         }
-        @media (max-width: 480px) {
+        @media (max-width: 600px) {
           main > div:last-child { columns: 1 !important; }
         }
       `}</style>

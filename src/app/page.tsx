@@ -1,6 +1,7 @@
 import Navbar from "@/components/Navbar";
 import Hero from "@/components/Hero";
 import About from "@/components/About";
+import RoomsSection from "@/components/RoomsSection";
 import GalleryPreview from "@/components/GalleryPreview";
 import Amenities from "@/components/Amenities";
 import BookingWidget from "@/components/BookingWidget";
@@ -41,13 +42,13 @@ export default function Home() {
       <main>
         <Hero />
         <About />
-        <GalleryPreview />
-
+        <RoomsSection />
+        
         {/* Full-bleed photo break — editorial moment */}
-        <div style={{ position: "relative", height: "60vh", overflow: "hidden", minHeight: 400 }}>
+        <div style={{ position: "relative", height: "80vh", overflow: "hidden", minHeight: 600 }}>
           <Image
-            src="/photos/0J6A0265.JPG"
-            alt="Seaside Stories"
+            src="/photos/0J6A0284.JPG"
+            alt="Seaside Stories Exterior"
             fill
             style={{ objectFit: "cover" }}
             sizes="100vw"
@@ -55,62 +56,59 @@ export default function Home() {
           />
           <div style={{
             position: "absolute", inset: 0,
-            background: "linear-gradient(to right, rgba(20,20,20,0.75) 0%, rgba(20,20,20,0.2) 60%, transparent 100%)",
-            display: "flex", alignItems: "center",
+            background: "linear-gradient(to bottom, rgba(15,23,42,0.4) 0%, rgba(15,23,42,0.1) 50%, rgba(15,23,42,0.6) 100%)",
+            display: "flex", alignItems: "center", justifyContent: "center", textAlign: "center"
           }}>
-            <div className="container">
+            <div className="container" style={{ maxWidth: 800 }}>
               <p style={{
-                color: "rgba(255,255,255,0.7)", fontSize: 13, fontWeight: 600,
-                letterSpacing: "0.12em", textTransform: "uppercase", marginBottom: 16,
+                color: "rgba(255,255,255,0.9)", fontSize: 13, fontWeight: 700,
+                letterSpacing: "0.25em", textTransform: "uppercase", marginBottom: 32,
               }}>The Experience</p>
-              <h2 style={{
-                fontFamily: "'Bebas Neue', sans-serif",
-                fontSize: "clamp(40px, 6vw, 76px)",
-                color: "white", lineHeight: 0.96, marginBottom: 24, maxWidth: 520,
-              }}>
-                FEEL THE OCEAN<br />EVERY MORNING
+              <h2 className="heading-xl" style={{ color: "white", marginBottom: 40 }}>
+                Wake up to the<br />
+                <i style={{ color: "#b2a384" }}>ocean&apos;s whisper</i>
               </h2>
-              <Link href="/book" className="btn btn-white" style={{ fontSize: 14 }}>
-                Book Your Stay →
+              <Link href="/book" className="btn btn-white" style={{ padding: "18px 48px" }}>
+                Begin Your Journey
               </Link>
             </div>
           </div>
         </div>
 
+        <GalleryPreview />
         <Amenities />
         <BookingWidget />
 
         {/* Reviews */}
-        <section className="section" style={{ background: "#f9f8f5" }}>
+        <section className="section" style={{ background: "#f8fafc" }}>
           <div className="container">
-            <div style={{ textAlign: "center", marginBottom: 56 }}>
+            <div style={{ textAlign: "center", marginBottom: 80 }}>
               <p className="label-tag" style={{ justifyContent: "center" }}>Guest Stories</p>
-              <div className="divider divider-center" />
-              <h2 className="heading-lg">WHAT GUESTS SAY</h2>
+              <h2 className="heading-lg">Loved by <i style={{ color: "#b2a384" }}>Travelers</i></h2>
             </div>
 
-            <div className="reviews-grid" style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 24 }}>
+            <div className="reviews-grid" style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 40 }}>
               {reviews.map((r) => (
-                <div key={r.name} className="card card-hover" style={{ padding: 32, display: "flex", flexDirection: "column" }}>
+                <div key={r.name} style={{ background: "white", padding: 48, boxShadow: "0 4px 20px rgba(0,0,0,0.02)", display: "flex", flexDirection: "column" }}>
                   {/* Stars */}
-                  <div style={{ display: "flex", gap: 2, marginBottom: 20 }}>
+                  <div style={{ display: "flex", gap: 4, marginBottom: 32 }}>
                     {Array.from({ length: r.stars }).map((_, i) => (
-                      <svg key={i} width="14" height="14" viewBox="0 0 24 24" fill="#2d4a54"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                      <svg key={i} width="14" height="14" viewBox="0 0 24 24" fill="#b2a384"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
                     ))}
                   </div>
 
-                  <p style={{ color: "#141414", fontSize: 15, lineHeight: 1.8, marginBottom: 24, flex: 1, fontStyle: "italic" }}>
+                  <p style={{ color: "#475569", fontSize: 16, lineHeight: 1.8, marginBottom: 40, flex: 1, fontWeight: 300, fontStyle: "italic" }}>
                     &ldquo;{r.text}&rdquo;
                   </p>
 
                   {/* Author */}
-                  <div style={{ display: "flex", alignItems: "center", gap: 12, paddingTop: 20, borderTop: "1px solid #e8e6e1" }}>
-                    <div style={{ width: 44, height: 44, borderRadius: "50%", overflow: "hidden", flexShrink: 0, background: "#e8e6e1" }}>
-                      <Image src={`/photos/${r.img}`} alt={r.name} width={44} height={44} style={{ objectFit: "cover", width: "100%", height: "100%" }} />
+                  <div style={{ display: "flex", alignItems: "center", gap: 20, paddingTop: 32, borderTop: "1px solid #f1f5f9" }}>
+                    <div style={{ width: 56, height: 56, borderRadius: "50%", overflow: "hidden", flexShrink: 0, position: "relative" }}>
+                      <Image src={`/photos/${r.img}`} alt={r.name} fill style={{ objectFit: "cover" }} />
                     </div>
                     <div>
-                      <div style={{ fontSize: 14, fontWeight: 600, color: "#141414" }}>{r.name}</div>
-                      <div style={{ fontSize: 12, color: "#717171" }}>{r.from}</div>
+                      <div style={{ fontSize: 15, fontWeight: 700, color: "#0f172a" }}>{r.name}</div>
+                      <div style={{ fontSize: 13, color: "#94a3b8", fontWeight: 500, textTransform: "uppercase", letterSpacing: "0.05em" }}>{r.from}</div>
                     </div>
                   </div>
                 </div>
@@ -119,52 +117,65 @@ export default function Home() {
           </div>
 
           <style>{`
-            @media (max-width: 900px) {
-              .reviews-grid { grid-template-columns: 1fr !important; }
+            @media (max-width: 1024px) {
+              .reviews-grid { grid-template-columns: 1fr 1fr !important; }
             }
-            @media (max-width: 600px) {
+            @media (max-width: 768px) {
               .reviews-grid { grid-template-columns: 1fr !important; }
             }
           `}</style>
         </section>
 
-        {/* Final CTA — dark, editorial */}
+        {/* Final CTA — professional, luxury dark */}
         <section style={{
-          background: "#2d4a54", padding: "100px 0",
+          background: "#0f172a", padding: "160px 0",
           display: "flex", alignItems: "center", justifyContent: "center",
+          position: "relative", overflow: "hidden"
         }}>
-          <div style={{ textAlign: "center", maxWidth: 640, padding: "0 24px" }}>
+          {/* Subtle background glow */}
+          <div style={{ 
+            position: "absolute", width: "100%", height: "100%", 
+            background: "radial-gradient(circle at 50% 50%, rgba(178,163,132,0.1) 0%, transparent 70%)",
+          }} />
+          
+          <div style={{ textAlign: "center", maxWidth: 800, padding: "0 24px", position: "relative", zIndex: 1 }}>
             <p style={{
-              color: "rgba(255,255,255,0.5)", fontSize: 12, fontWeight: 700,
-              letterSpacing: "0.14em", textTransform: "uppercase", marginBottom: 20,
-            }}>Limited Dates Available</p>
-            <h2 style={{
-              fontFamily: "'Bebas Neue', sans-serif",
-              fontSize: "clamp(48px, 8vw, 88px)",
-              color: "white", lineHeight: 0.94, marginBottom: 24,
-            }}>
-              YOUR STORY<br />AWAITS
+              color: "#b2a384", fontSize: 12, fontWeight: 700,
+              letterSpacing: "0.3em", textTransform: "uppercase", marginBottom: 32,
+            }}>Escape the Ordinary</p>
+            <h2 className="heading-xl" style={{ color: "white", marginBottom: 40 }}>
+              Your story starts <i style={{ color: "#b2a384" }}>here</i>
             </h2>
-            <p style={{ color: "rgba(255,255,255,0.6)", fontSize: 17, lineHeight: 1.8, marginBottom: 40 }}>
-              From ₹18,000 per night. Private beach access. Curated coastal living.
+            <p style={{ color: "rgba(255,255,255,0.7)", fontSize: 20, lineHeight: 1.8, marginBottom: 56, fontWeight: 300 }}>
+              Experience Kerala&apos;s most exclusive beach retreat. Limited dates available for private bookings.
             </p>
-            <div style={{ display: "flex", gap: 12, justifyContent: "center", flexWrap: "wrap" }}>
-              <Link href="/book" className="btn btn-white" style={{ fontSize: 15, padding: "15px 36px" }}>
-                Book Now
+            <div style={{ display: "flex", gap: 24, justifyContent: "center", flexWrap: "wrap" }}>
+              <Link href="/book" className="btn btn-accent" style={{ padding: "20px 60px" }}>
+                Book Your Stay
               </Link>
               <a href="https://wa.me/919876543210" target="_blank" rel="noopener noreferrer"
+                className="btn-whatsapp"
                 style={{
-                  display: "inline-flex", alignItems: "center", gap: 8,
-                  color: "rgba(255,255,255,0.85)", fontSize: 15, fontWeight: 500,
-                  padding: "15px 28px", borderRadius: 12,
-                  border: "1.5px solid rgba(255,255,255,0.25)", textDecoration: "none",
-                  background: "rgba(255,255,255,0.08)", transition: "all 0.2s",
+                  display: "inline-flex", alignItems: "center", gap: 12,
+                  color: "white", fontSize: 14, fontWeight: 600,
+                  padding: "20px 48px", borderRadius: 4,
+                  border: "1px solid rgba(255,255,255,0.2)", textDecoration: "none",
+                  background: "rgba(255,255,255,0.05)", backdropFilter: "blur(10px)",
+                  transition: "all 0.4s ease", textTransform: "uppercase", letterSpacing: "0.1em"
                 }}
               >
-                WhatsApp →
+                Inquire via WhatsApp
               </a>
             </div>
           </div>
+
+          <style>{`
+            .btn-whatsapp:hover {
+              border-color: #b2a384 !important;
+              background: rgba(178,163,132,0.1) !important;
+              color: #b2a384 !important;
+            }
+          `}</style>
         </section>
 
         <Location />
