@@ -89,8 +89,15 @@ export default function Navbar() {
 
           {/* Mobile toggle */}
           <button onClick={() => setMobileOpen(!mobileOpen)}
-            style={{ background: "none", border: "none", color: linkColor, cursor: "pointer", padding: 8, display: "none" }}
-            className="md:hidden"
+            style={{ 
+              background: "none", 
+              border: "none", 
+              color: linkColor, 
+              cursor: "pointer", 
+              padding: 8,
+              display: "none"
+            }}
+            className="mobile-toggle"
           >
             {mobileOpen ? <X size={24} /> : <Menu size={24} />}
           </button>
@@ -101,18 +108,19 @@ export default function Navbar() {
       {mobileOpen && (
         <div style={{
           position: "fixed", top: 80, left: 0, right: 0, zIndex: 999,
-          background: "#ffffff", padding: "32px 24px",
+          background: "#ffffff", padding: "40px 24px",
           display: "flex", flexDirection: "column", gap: 8,
-          boxShadow: "0 40px 80px rgba(0,0,0,0.1)"
+          boxShadow: "0 40px 80px rgba(0,0,0,0.1)",
+          animation: "slideDown 0.4s cubic-bezier(0.4, 0, 0.2, 1)"
         }}>
           {links.map((l) => (
             <Link key={l.href} href={l.href} onClick={() => setMobileOpen(false)} style={{
               display: "block", color: "#0f172a", textDecoration: "none",
-              padding: "16px 0", fontSize: 13, fontWeight: 700,
-              borderBottom: "1px solid #f1f5f9", letterSpacing: "0.1em", textTransform: "uppercase"
+              padding: "20px 0", fontSize: 13, fontWeight: 700,
+              borderBottom: "1px solid #f1f5f9", letterSpacing: "0.15em", textTransform: "uppercase"
             }}>{l.label}</Link>
           ))}
-          <Link href="/book" onClick={() => setMobileOpen(false)} className="btn btn-dark" style={{ marginTop: 24, width: "100%", justifyContent: "center" }}>
+          <Link href="/book" onClick={() => setMobileOpen(false)} className="btn btn-dark" style={{ marginTop: 32, width: "100%", justifyContent: "center", padding: "20px" }}>
             Book Now
           </Link>
         </div>
@@ -120,8 +128,13 @@ export default function Navbar() {
 
       <style>{`
         .nav-link:hover { color: #b2a384 !important; opacity: 0.8; }
+        @keyframes slideDown {
+          from { opacity: 0; transform: translateY(-10px); }
+          to { opacity: 1; transform: translateY(0); }
+        }
         @media (max-width: 768px) {
-          button[style*="display: none"] { display: block !important; }
+          .hidden.md\\:flex { display: none !important; }
+          .mobile-toggle { display: block !important; }
         }
       `}</style>
     </>

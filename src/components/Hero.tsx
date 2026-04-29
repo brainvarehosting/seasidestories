@@ -87,7 +87,7 @@ export default function Hero() {
       </div>
 
       {/* Refined Search Bar */}
-      <div style={{
+      <div className="hero-search-bar" style={{
         position: "absolute", bottom: 60, left: 0, right: 0,
         padding: "0 24px",
       }}>
@@ -136,14 +136,12 @@ export default function Hero() {
       </div>
 
       <style>{`
+        @media (max-width: 1024px) {
+          .hero-search-bar { display: none !important; }
+        }
         @media (max-width: 768px) {
-          .heading-xl { font-size: 48px !important; }
-          div[style*="grid-template-columns: 1fr 1fr 1fr auto"] { 
-            grid-template-columns: 1fr !important;
-            gap: 0 !important;
-          }
-          div[style*="width: 1"] { display: none !important; }
-          button[style*="background: #0f172a"] { padding: 16px !important; margin-top: 8px !important; }
+          .heading-xl { font-size: 44px !important; line-height: 1.1 !important; }
+          .hero-search-bar { display: none !important; }
         }
         @keyframes bounce {
           0%, 100% { transform: translateY(0); }
