@@ -63,17 +63,10 @@ export default function Hero() {
           fontFamily: "'Bebas Neue', sans-serif",
           fontSize: "clamp(72px, 12vw, 140px)",
           lineHeight: 0.92, letterSpacing: "0.01em",
-          color: "white", marginBottom: 0,
+          color: "white", marginBottom: 20,
         }}>
-          Seaside
-        </h1>
-        <h1 style={{
-          fontFamily: "'Bebas Neue', sans-serif",
-          fontSize: "clamp(72px, 12vw, 140px)",
-          lineHeight: 0.92, letterSpacing: "0.01em",
-          color: "#c278d4", marginBottom: 20,
-        }}>
-          Stories
+          Seaside<br />
+          <span style={{ color: "#c278d4" }}>Stories</span>
         </h1>
 
         <p style={{

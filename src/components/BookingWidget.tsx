@@ -12,7 +12,7 @@ export default function BookingWidget() {
   return (
     <section style={{ background: "#f9f8f5", padding: "80px 0" }}>
       <div className="container">
-        <div style={{
+        <div className="booking-widget-grid" style={{
           display: "grid",
           gridTemplateColumns: "1fr 1.4fr",
           gap: 64,

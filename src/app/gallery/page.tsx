@@ -34,7 +34,7 @@ export default function GalleryPage() {
             <div className="divider divider-center" />
             <h1 className="heading-xl" style={{ marginBottom: 16 }}>OUR GALLERY</h1>
             <p style={{ color: "#717171", fontSize: 16, maxWidth: 440, margin: "0 auto" }}>
-              {ALL_PHOTOS.length} moments captured along Kerala&apos;s coastline.
+              {`${ALL_PHOTOS.length} moments captured along Kerala's coastline.`}
             </p>
           </div>
         </div>

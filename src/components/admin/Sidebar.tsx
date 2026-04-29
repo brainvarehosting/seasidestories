@@ -14,8 +14,8 @@ export default function AdminSidebar() {
   const pathname = usePathname();
   const router = useRouter();
 
-  const handleLogout = async () => {
-    await fetch("/api/auth/logout", { method: "POST" });
+  const handleLogout = () => {
+    sessionStorage.removeItem("ss-admin");
     router.push("/admin");
   };
 

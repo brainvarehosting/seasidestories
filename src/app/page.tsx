@@ -89,7 +89,7 @@ export default function Home() {
               <h2 className="heading-lg">WHAT GUESTS SAY</h2>
             </div>
 
-            <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 24 }}>
+            <div className="reviews-grid" style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 24 }}>
               {reviews.map((r) => (
                 <div key={r.name} className="card card-hover" style={{ padding: 32, display: "flex", flexDirection: "column" }}>
                   {/* Stars */}

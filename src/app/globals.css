@@ -185,3 +185,25 @@ body {
   background: rgba(0,0,0,0.96);
   display: flex; align-items: center; justify-content: center;
 }
+
+/* ── Admin form fields ─────────────────────── */
+.input-field {
+  width: 100%; padding: 14px 16px;
+  border: 1.5px solid #e8e6e1; border-radius: 12px;
+  font-family: 'Open Sans', sans-serif; font-size: 14px; color: #141414;
+  outline: none; transition: border-color 0.2s, box-shadow 0.2s;
+  background: #fff;
+}
+.input-field:focus { border-color: #2d4a54; box-shadow: 0 0 0 3px rgba(45,74,84,0.1); }
+.input-field::placeholder { color: #b0acac; }
+
+.btn-ocean {
+  display: inline-flex; align-items: center; justify-content: center;
+  font-family: 'Bebas Neue', sans-serif; font-size: 18px; font-weight: 400;
+  letter-spacing: 0.08em; padding: 14px 28px; border-radius: 14px;
+  cursor: pointer; border: none; text-decoration: none;
+  background: linear-gradient(135deg, #2d4a54, #536b76);
+  color: white; transition: all 0.2s ease;
+}
+.btn-ocean:hover { background: linear-gradient(135deg, #1c3640, #2d4a54); transform: translateY(-1px); box-shadow: 0 8px 24px rgba(45,74,84,0.35); }
+.btn-ocean:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }

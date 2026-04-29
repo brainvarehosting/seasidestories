@@ -50,14 +50,14 @@ export default function Amenities() {
           <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: 48, paddingTop: 8 }}>
             {cols.map((col) => (
               <div key={col.heading}>
-                <h4 style={{
+                <p style={{
                   fontSize: 11, fontWeight: 700, letterSpacing: "0.12em",
                   textTransform: "uppercase", color: "#141414",
                   marginBottom: 24, paddingBottom: 12,
                   borderBottom: "1.5px solid #141414",
                 }}>
                   {col.heading}
-                </h4>
+                </p>
                 <div style={{ display: "flex", flexDirection: "column", gap: 18 }}>
                   {col.items.map(({ icon: Icon, label }) => (
                     <div key={label} style={{ display: "flex", alignItems: "center", gap: 12 }}>

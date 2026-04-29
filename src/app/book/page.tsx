@@ -1,18 +1,15 @@
 "use client";
-import { useState, useEffect, Suspense } from "react";
+import { useState, Suspense } from "react";
 import { useSearchParams } from "next/navigation";
 import Image from "next/image";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import { Calendar, Users, User, Mail, Phone, MessageSquare, CheckCircle, AlertCircle } from "lucide-react";
+import { Calendar, Users, User, Mail, Phone, MessageSquare, CheckCircle } from "lucide-react";
 
-interface PriceCalc {
-  available: boolean;
-  nights: number;
-  subtotal: number;
-  cleaningFee: number;
-  total: number;
-}
+const PRICE_PER_NIGHT = 18000;
+const CLEANING_FEE = 2000;
+const MIN_NIGHTS = 2;
+const WHATSAPP_NUMBER = "919876543210";
 
 function BookingForm() {
   const searchParams = useSearchParams();
@@ -23,34 +20,45 @@ function BookingForm() {
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
   const [message, setMessage] = useState("");
-  const [priceCalc, setPriceCalc] = useState<PriceCalc | null>(null);
-  const [loading, setLoading] = useState(false);
-  const [submitting, setSubmitting] = useState(false);
   const [success, setSuccess] = useState(false);
   const [error, setError] = useState("");
   const today = new Date().toISOString().split("T")[0];
 
-  useEffect(() => {
-    if (!checkIn || !checkOut) { setPriceCalc(null); return; }
-    setLoading(true);
-    fetch(`/api/availability?checkIn=${checkIn}&checkOut=${checkOut}`)
-      .then((r) => r.json()).then(setPriceCalc).catch(() => {}).finally(() => setLoading(false));
-  }, [checkIn, checkOut]);
+  // Client-side price calculation
+  const nights = checkIn && checkOut
+    ? Math.max(0, Math.round((new Date(checkOut).getTime() - new Date(checkIn).getTime()) / (1000 * 60 * 60 * 24)))
+    : 0;
+  const subtotal = nights * PRICE_PER_NIGHT;
+  const total = subtotal + (nights > 0 ? CLEANING_FEE : 0);
+  const isValid = nights >= MIN_NIGHTS;
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (!checkIn || !checkOut || !name || !email || !phone) { setError("Please fill all required fields."); return; }
-    setSubmitting(true); setError("");
-    try {
-      const res = await fetch("/api/bookings", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ checkIn, checkOut, guestName: name, guestEmail: email, guestPhone: phone, guests, message }),
-      });
-      if (res.ok) setSuccess(true);
-      else { const d = await res.json(); setError(d.error || "Something went wrong."); }
-    } catch { setError("Network error. Please try again."); }
-    finally { setSubmitting(false); }
+    if (!checkIn || !checkOut || !name || !email || !phone) {
+      setError("Please fill all required fields.");
+      return;
+    }
+    if (nights < MIN_NIGHTS) {
+      setError(`Minimum stay is ${MIN_NIGHTS} nights.`);
+      return;
+    }
+    setError("");
+
+    // Build WhatsApp message
+    const msg = encodeURIComponent(
+      `🏖️ *Booking Request — Seaside Stories*\n\n` +
+      `👤 *Guest:* ${name}\n` +
+      `📧 *Email:* ${email}\n` +
+      `📱 *Phone:* ${phone}\n` +
+      `📅 *Check-in:* ${checkIn}\n` +
+      `📅 *Check-out:* ${checkOut}\n` +
+      `👥 *Guests:* ${guests}\n` +
+      `🌙 *Nights:* ${nights}\n` +
+      `💰 *Estimated Total:* ₹${total.toLocaleString()}\n` +
+      (message ? `\n💬 *Special Requests:*\n${message}` : "")
+    );
+    window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${msg}`, "_blank");
+    setSuccess(true);
   };
 
   if (success) return (
@@ -60,7 +68,7 @@ function BookingForm() {
       </div>
       <h2 style={{ fontFamily: "'Bebas Neue', sans-serif", fontSize: 44, color: "#141414", marginBottom: 12 }}>REQUEST SENT!</h2>
       <p style={{ color: "#717171", fontSize: 15, lineHeight: 1.8, marginBottom: 32 }}>
-        We&apos;ll confirm your booking at <strong>{email}</strong> within 24 hours.
+        Your booking request has been sent via WhatsApp. We&apos;ll confirm your stay within 24 hours.
       </p>
       <a href="/" className="btn btn-dark">← Back to Home</a>
     </div>
@@ -69,7 +77,7 @@ function BookingForm() {
   return (
     <div style={{ display: "grid", gridTemplateColumns: "1.2fr 1fr", gap: 48, alignItems: "start" }}>
       {/* LEFT — form */}
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleSubmit} id="booking-form">
         {/* Dates card */}
         <div className="card" style={{ padding: 32, marginBottom: 16 }}>
           <h3 style={{ fontFamily: "'Bebas Neue', sans-serif", fontSize: 22, color: "#141414", marginBottom: 24 }}>YOUR STAY</h3>
@@ -120,8 +128,8 @@ function BookingForm() {
       {/* RIGHT — price summary sticky */}
       <div style={{ position: "sticky", top: 88 }}>
         {/* Photo card */}
-        <div style={{ borderRadius: 20, overflow: "hidden", aspectRatio: "4/3", marginBottom: 16, background: "#f3f2ef" }}>
-          <Image src="/photos/0J6A0268.JPG" alt="Villa" fill style={{ objectFit: "cover" }} sizes="480px" />
+        <div style={{ borderRadius: 20, overflow: "hidden", aspectRatio: "4/3", marginBottom: 16, background: "#f3f2ef", position: "relative" }}>
+          <Image src="/photos/0J6A0268.JPG" alt="Seaside Stories Villa" fill style={{ objectFit: "cover" }} sizes="480px" />
         </div>
 
         <div className="card" style={{ padding: 28 }}>
@@ -130,57 +138,50 @@ function BookingForm() {
             <span style={{ fontSize: 13, color: "#717171" }}>No payment now</span>
           </div>
 
-          {!checkIn || !checkOut ? (
+          {nights === 0 ? (
             <p style={{ color: "#b0acac", textAlign: "center", padding: "20px 0", fontSize: 14 }}>Select dates to see pricing</p>
-          ) : loading ? (
-            <p style={{ color: "#b0acac", textAlign: "center", padding: "20px 0" }}>Calculating…</p>
-          ) : priceCalc ? (
+          ) : !isValid ? (
+            <p style={{ color: "#dc2626", textAlign: "center", padding: "20px 0", fontSize: 14 }}>Minimum stay is {MIN_NIGHTS} nights</p>
+          ) : (
             <>
-              {!priceCalc.available && (
-                <div style={{ display: "flex", gap: 8, background: "#fee2e2", borderRadius: 10, padding: "10px 14px", marginBottom: 16 }}>
-                  <AlertCircle size={14} color="#7f1d1d" style={{ flexShrink: 0, marginTop: 1 }} />
-                  <span style={{ color: "#7f1d1d", fontSize: 13 }}>These dates aren&apos;t available. Please select different dates.</span>
-                </div>
-              )}
               <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
                 <div style={{ display: "flex", justifyContent: "space-between", fontSize: 14, color: "#717171" }}>
-                  <span>Accommodation ({priceCalc.nights} nights)</span>
-                  <span style={{ fontWeight: 600, color: "#141414" }}>₹{priceCalc.subtotal.toLocaleString()}</span>
+                  <span>₹{PRICE_PER_NIGHT.toLocaleString()} × {nights} nights</span>
+                  <span style={{ fontWeight: 600, color: "#141414" }}>₹{subtotal.toLocaleString()}</span>
                 </div>
                 <div style={{ display: "flex", justifyContent: "space-between", fontSize: 14, color: "#717171" }}>
                   <span>Cleaning fee</span>
-                  <span style={{ fontWeight: 600, color: "#141414" }}>₹{priceCalc.cleaningFee.toLocaleString()}</span>
+                  <span style={{ fontWeight: 600, color: "#141414" }}>₹{CLEANING_FEE.toLocaleString()}</span>
                 </div>
                 <div style={{ borderTop: "1.5px solid #e8e6e1", paddingTop: 12, display: "flex", justifyContent: "space-between" }}>
                   <span style={{ fontWeight: 700, fontSize: 16 }}>Total</span>
-                  <span style={{ fontWeight: 800, fontSize: 22, color: "#141414" }}>₹{priceCalc.total.toLocaleString()}</span>
+                  <span style={{ fontWeight: 800, fontSize: 22, color: "#141414" }}>₹{total.toLocaleString()}</span>
                 </div>
               </div>
               <p style={{ fontSize: 11, color: "#b0acac", marginTop: 12, lineHeight: 1.6 }}>
                 + ₹5,000 refundable security deposit collected at check-in.
               </p>
             </>
-          ) : null}
+          )}
 
           {error && (
-            <div style={{ display: "flex", gap: 8, background: "#fee2e2", borderRadius: 10, padding: "10px 14px", marginBottom: 12 }}>
-              <AlertCircle size={14} color="#7f1d1d" style={{ flexShrink: 0, marginTop: 1 }} />
-              <span style={{ color: "#7f1d1d", fontSize: 13 }}>{error}</span>
+            <div style={{ background: "#fee2e2", borderRadius: 10, padding: "10px 14px", marginBottom: 12, color: "#7f1d1d", fontSize: 13 }}>
+              {error}
             </div>
           )}
 
-          <button type="submit" form="" onClick={(e) => {
-            e.preventDefault();
-            document.querySelector("form")?.requestSubmit();
-          }}
-            disabled={submitting || (priceCalc !== null && !priceCalc.available)}
+          <button
+            type="submit"
+            form="booking-form"
+            disabled={!isValid}
             className="btn btn-dark"
-            style={{ width: "100%", justifyContent: "center", marginTop: 16, padding: "15px", fontSize: 15, opacity: submitting ? 0.7 : 1 }}>
-            {submitting ? "Sending request…" : "Request to Book"}
+            style={{ width: "100%", justifyContent: "center", marginTop: 16, padding: "15px", fontSize: 15, opacity: !isValid ? 0.5 : 1 }}
+          >
+            Request to Book via WhatsApp
           </button>
 
           <p style={{ textAlign: "center", fontSize: 12, color: "#b0acac", marginTop: 10 }}>
-            Free cancellation · Instant confirmation
+            Free cancellation · Instant confirmation via WhatsApp
           </p>
         </div>
       </div>
@@ -188,6 +189,12 @@ function BookingForm() {
       <style>{`
         @media (max-width: 900px) {
           form ~ div { position: static !important; }
+          #booking-form ~ div { position: static !important; }
+        }
+        @media (max-width: 768px) {
+          div[style*="grid-template-columns: 1.2fr"] {
+            grid-template-columns: 1fr !important;
+          }
         }
       `}</style>
     </div>

@@ -39,9 +39,9 @@ export default function Footer() {
           {/* Link columns */}
           {cols.map((col) => (
             <div key={col.heading}>
-              <h4 style={{ fontSize: 11, fontWeight: 700, letterSpacing: "0.12em", textTransform: "uppercase", color: "rgba(255,255,255,0.5)", marginBottom: 20 }}>
+              <p style={{ fontSize: 11, fontWeight: 700, letterSpacing: "0.12em", textTransform: "uppercase", color: "rgba(255,255,255,0.5)", marginBottom: 20 }}>
                 {col.heading}
-              </h4>
+              </p>
               {col.links.map((l) => (
                 <Link key={l.label} href={l.href} style={{
                   display: "block", color: "rgba(255,255,255,0.6)", textDecoration: "none",

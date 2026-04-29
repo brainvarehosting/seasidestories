@@ -15,23 +15,14 @@ export default function AdminLogin() {
     e.preventDefault();
     setLoading(true);
     setError("");
-    try {
-      const res = await fetch("/api/auth/login", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email, password }),
-      });
-      if (res.ok) {
-        router.push("/admin/dashboard");
-      } else {
-        const data = await res.json();
-        setError(data.error || "Login failed");
-      }
-    } catch {
-      setError("Network error");
-    } finally {
-      setLoading(false);
+    // Simple client-side password check for admin access
+    if (email === "care@brainvare.com" && password === "admin123") {
+      sessionStorage.setItem("ss-admin", "true");
+      router.push("/admin/dashboard");
+    } else {
+      setError("Invalid credentials");
     }
+    setLoading(false);
   };
 
   return (
@@ -65,7 +56,7 @@ export default function AdminLogin() {
               <label style={{ fontSize: 11, fontWeight: 700, color: "#536b76", letterSpacing: "0.1em", textTransform: "uppercase", display: "flex", alignItems: "center", gap: 6, marginBottom: 8 }}>
                 <Mail size={13} /> Email
               </label>
-              <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} className="input-field" required />
+              <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} className="input-field" autoComplete="email" required />
             </div>
 
             <div>
@@ -73,8 +64,8 @@ export default function AdminLogin() {
                 <Lock size={13} /> Password
               </label>
               <div style={{ position: "relative" }}>
-                <input type={showPass ? "text" : "password"} value={password} onChange={(e) => setPassword(e.target.value)} className="input-field" placeholder="Enter password" required style={{ paddingRight: 44 }} />
-                <button type="button" onClick={() => setShowPass(!showPass)} style={{ position: "absolute", right: 14, top: "50%", transform: "translateY(-50%)", background: "none", border: "none", cursor: "pointer", color: "#536b76" }}>
+                <input type={showPass ? "text" : "password"} value={password} onChange={(e) => setPassword(e.target.value)} className="input-field" placeholder="Enter password" autoComplete="current-password" required style={{ paddingRight: 44 }} />
+                <button type="button" onClick={() => setShowPass(!showPass)} aria-label={showPass ? "Hide password" : "Show password"} style={{ position: "absolute", right: 14, top: "50%", transform: "translateY(-50%)", background: "none", border: "none", cursor: "pointer", color: "#536b76" }}>
                   {showPass ? <EyeOff size={16} /> : <Eye size={16} />}
                 </button>
               </div>

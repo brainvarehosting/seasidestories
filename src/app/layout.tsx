@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://seasidestories.in"),
   title: "Seaside Stories – Luxury Beach Villa in Kerala",
   description:
     "Experience coastal tranquility at Seaside Stories, Kerala's premier luxury beach villa. Book your private seaside escape with stunning ocean views, curated experiences, and authentic local charm.",
