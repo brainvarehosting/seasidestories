@@ -1,0 +1,30 @@
+<svg viewBox="0 0 220 220" xmlns="http://www.w3.org/2000/svg" width="220" height="220">
+  <!-- Outer circle -->
+  <circle cx="110" cy="110" r="104" fill="none" stroke="currentColor" stroke-width="2.5"/>
+  <!-- Inner circle (thin) -->
+  <circle cx="110" cy="110" r="96" fill="none" stroke="currentColor" stroke-width="0.8" opacity="0.4"/>
+
+  <!-- Mast -->
+  <line x1="110" y1="45" x2="110" y2="138" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/>
+
+  <!-- Main sail (right of mast) -->
+  <path d="M110 50 L148 134 L110 134 Z" fill="currentColor" opacity="0.95"/>
+
+  <!-- Jib sail (left of mast) -->
+  <path d="M110 72 L76 134 L110 134 Z" fill="currentColor" opacity="0.75"/>
+
+  <!-- Boom -->
+  <line x1="88" y1="134" x2="148" y2="134" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+
+  <!-- Hull -->
+  <path d="M72 140 Q110 158 148 140 L145 134 L75 134 Z" fill="currentColor"/>
+
+  <!-- Cabin window -->
+  <rect x="105" y="126" width="10" height="7" rx="2" fill="white" opacity="0.6"/>
+
+  <!-- Wave 1 -->
+  <path d="M56 168 Q72 158 88 168 Q104 178 120 168 Q136 158 152 168" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/>
+
+  <!-- Wave 2 -->
+  <path d="M68 180 Q82 172 96 180 Q110 188 124 180 Q138 172 152 180" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" opacity="0.55"/>
+</svg>

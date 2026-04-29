@@ -1,0 +1,6 @@
+name = "seaside-stories"
+compatibility_date = "2024-01-01"
+pages_build_output_dir = ".vercel/output/static"
+
+[vars]
+JWT_SECRET = "change-this-in-cloudflare-dashboard"

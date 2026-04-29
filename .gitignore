@@ -39,3 +39,13 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# Large media — use Cloudflare R2 or CDN in production
+# public/photos/
+# public/video/
+
+# Local data (add to Cloudflare KV / D1 for production)
+# data/
+
+# Environment
+.env.local

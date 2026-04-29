@@ -1,0 +1,14 @@
+{
+  "adminEmail": "care@brainvare.com",
+  "adminPasswordHash": "ce698f27435c8c18fddc100347e3dc74762e5e0bb405c1b0a942f7beea123017",
+  "villaName": "Seaside Stories",
+  "contactPhone": "+91 98765 43210",
+  "contactEmail": "hello@seasidestories.in",
+  "instagram": "https://instagram.com/seasidestories",
+  "facebook": "https://facebook.com/seasidestories",
+  "whatsapp": "+919876543210",
+  "address": "Kerala, India",
+  "checkInTime": "14:00",
+  "checkOutTime": "11:00",
+  "maxGuests": 10
+}
