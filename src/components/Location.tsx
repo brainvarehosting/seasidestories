@@ -9,11 +9,11 @@ export default function Location() {
           <h2 className="heading-lg">Our <i style={{ color: "#b2a384" }}>Location</i></h2>
         </div>
 
-        <div style={{ display: "grid", gridTemplateColumns: "1fr 2fr", gap: 64, alignItems: "start" }}>
+        <div className="location-grid">
           {/* Contact */}
-          <div style={{ 
-            background: "#f8fafc", 
-            padding: 48, 
+          <div style={{
+            background: "#f8fafc",
+            padding: 48,
             boxShadow: "0 4px 20px rgba(0,0,0,0.02)",
             border: "1px solid #f1f5f9"
           }}>
@@ -27,7 +27,7 @@ export default function Location() {
             ].map(({ icon: Icon, label, value }) => (
               <div key={label} style={{ display: "flex", gap: 20, paddingBottom: 24, marginBottom: 24, borderBottom: "1px solid #e2e8f0" }}>
                 <div style={{
-                  width: 44, height: 44, borderRadius: 0,
+                  width: 44, height: 44,
                   background: "#ffffff", border: "1px solid #f1f5f9",
                   display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0,
                 }}>
@@ -48,10 +48,8 @@ export default function Location() {
           </div>
 
           {/* Map */}
-          <div style={{ 
-            borderRadius: 0, 
-            overflow: "hidden", 
-            height: 580, 
+          <div className="location-map-height" style={{
+            overflow: "hidden",
             boxShadow: "0 40px 80px -20px rgba(0,0,0,0.1)",
             border: "1px solid #f1f5f9"
           }}>
@@ -66,13 +64,6 @@ export default function Location() {
           </div>
         </div>
       </div>
-
-      <style>{`
-        @media (max-width: 1024px) {
-          #location .container > div:last-child { grid-template-columns: 1fr !important; gap: 48px !important; }
-          #location .container > div:last-child > div:last-child { height: 400px !important; }
-        }
-      `}</style>
     </section>
   );
 }

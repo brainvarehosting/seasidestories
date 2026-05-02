@@ -1,11 +1,11 @@
 "use client";
-import { useState, Suspense } from "react";
+import { useState, useEffect, useRef, Suspense } from "react";
 import { useSearchParams } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import { Calendar, Users, User, Mail, Phone, MessageSquare, CheckCircle } from "lucide-react";
+import { Calendar as CalendarIcon, Users, User, Mail, Phone, MessageSquare, CheckCircle, ChevronLeft, ChevronRight, X, ArrowRight } from "lucide-react";
 
 const PRICE_PER_NIGHT = 18000;
 const CLEANING_FEE = 2000;
@@ -23,9 +23,62 @@ function BookingForm() {
   const [message, setMessage] = useState("");
   const [success, setSuccess] = useState(false);
   const [error, setError] = useState("");
-  const today = new Date().toISOString().split("T")[0];
+  const [showCalendar, setShowCalendar] = useState(false);
+  const [currentMonth, setCurrentMonth] = useState(new Date());
+  const calendarRef = useRef<HTMLDivElement>(null);
 
-  // Client-side price calculation
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (calendarRef.current && !calendarRef.current.contains(event.target as Node)) {
+        setShowCalendar(false);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
+
+  const getDaysInMonth = (date: Date) => {
+    const year = date.getFullYear();
+    const month = date.getMonth();
+    const days = new Array();
+    const firstDay = new Date(year, month, 1).getDay();
+    const lastDate = new Date(year, month + 1, 0).getDate();
+    for (let i = 0; i < firstDay; i++) days.push(null);
+    for (let i = 1; i <= lastDate; i++) days.push(new Date(year, month, i));
+    return days;
+  };
+
+  const handleDateClick = (date: Date) => {
+    if (date < today) return;
+    const dateStr = date.toISOString().split("T")[0];
+    if (!checkIn || (checkIn && checkOut)) {
+      setCheckIn(dateStr);
+      setCheckOut("");
+    } else {
+      if (dateStr < checkIn) {
+        setCheckIn(dateStr);
+        setCheckOut("");
+      } else {
+        setCheckOut(dateStr);
+        setTimeout(() => setShowCalendar(false), 300);
+      }
+    }
+  };
+
+  const isSelected = (date: Date) => {
+    const str = date.toISOString().split("T")[0];
+    return str === checkIn || str === checkOut;
+  };
+
+  const isInRange = (date: Date) => {
+    if (!checkIn || !checkOut) return false;
+    const str = date.toISOString().split("T")[0];
+    return str > checkIn && str < checkOut;
+  };
+
   const nights = checkIn && checkOut
     ? Math.max(0, Math.round((new Date(checkOut).getTime() - new Date(checkIn).getTime()) / (1000 * 60 * 60 * 24)))
     : 0;
@@ -43,9 +96,6 @@ function BookingForm() {
       setError(`Minimum stay is ${MIN_NIGHTS} nights.`);
       return;
     }
-    setError("");
-
-    // Build WhatsApp message
     const msg = encodeURIComponent(
       `🏖️ *Booking Request — Seaside Stories*\n\n` +
       `👤 *Guest:* ${name}\n` +
@@ -78,36 +128,84 @@ function BookingForm() {
   return (
     <div style={{ display: "grid", gridTemplateColumns: "1.2fr 1fr", gap: 80, alignItems: "start" }}>
       {/* LEFT — form */}
-      <form onSubmit={handleSubmit} id="booking-form" style={{ display: "flex", flexDirection: "column", gap: 40 }}>
-        {/* Dates card */}
-        <div style={{ background: "white", padding: 48, border: "1px solid #f1f5f9", boxShadow: "0 4px 20px rgba(0,0,0,0.02)" }}>
-          <h3 style={{ fontSize: 12, fontWeight: 700, letterSpacing: "0.15em", textTransform: "uppercase", color: "#94a3b8", marginBottom: 32 }}>Select Dates</h3>
-          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 24, marginBottom: 32 }}>
-            <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
-              <label style={{ fontSize: 11, fontWeight: 700, letterSpacing: "0.1em", textTransform: "uppercase", color: "#64748b" }}>Arrival</label>
-              <input type="date" value={checkIn} min={today} onChange={(e) => setCheckIn(e.target.value)} required 
-                style={{ border: "1px solid #e2e8f0", padding: "16px", outline: "none", fontSize: 14, color: "#0f172a", borderRadius: 0, background: "#f8fafc" }} />
+      <div id="booking-form-container" style={{ display: "flex", flexDirection: "column", gap: 40 }}>
+        {/* Premium Calendar Selector Card */}
+        <div style={{ background: "white", padding: 48, border: "1px solid #f1f5f9", boxShadow: "0 4px 20px rgba(0,0,0,0.02)", position: "relative" }}>
+          <h3 style={{ fontSize: 12, fontWeight: 700, letterSpacing: "0.15em", textTransform: "uppercase", color: "#94a3b8", marginBottom: 32 }}>Reservation Details</h3>
+          
+          <div style={{ display: "flex", flexDirection: "column", gap: 32 }}>
+            <div style={{ position: "relative" }}>
+              <label style={{ fontSize: 11, fontWeight: 700, letterSpacing: "0.1em", textTransform: "uppercase", color: "#64748b", display: "block", marginBottom: 12 }}>Travel Dates</label>
+              <div 
+                onClick={() => setShowCalendar(!showCalendar)}
+                style={{
+                  display: "grid",
+                  gridTemplateColumns: "1fr auto 1fr",
+                  alignItems: "center",
+                  border: "1px solid #e2e8f0",
+                  background: "#f8fafc",
+                  padding: "18px 24px",
+                  cursor: "pointer",
+                  outline: showCalendar ? "2px solid #b2a384" : "none"
+                }}>
+                <div style={{ display: "flex", alignItems: "center", gap: 16 }}>
+                  <CalendarIcon size={18} color={checkIn ? "#b2a384" : "#cbd5e1"} />
+                  <span style={{ fontSize: 15, color: checkIn ? "#0f172a" : "#94a3b8", fontWeight: checkIn ? 600 : 400 }}>
+                    {checkIn ? new Date(checkIn).toLocaleDateString('en-US', { day: 'numeric', month: 'short' }) : "Check In"}
+                  </span>
+                </div>
+                <ArrowRight size={16} color="#cbd5e1" style={{ margin: "0 20px" }} />
+                <div style={{ display: "flex", alignItems: "center", gap: 16 }}>
+                  <span style={{ fontSize: 15, color: checkOut ? "#0f172a" : "#94a3b8", fontWeight: checkOut ? 600 : 400 }}>
+                    {checkOut ? new Date(checkOut).toLocaleDateString('en-US', { day: 'numeric', month: 'short' }) : "Check Out"}
+                  </span>
+                </div>
+              </div>
+
+              {showCalendar && (
+                <div ref={calendarRef} style={{
+                  position: "absolute", top: "100%", left: 0, right: 0, background: "white", zIndex: 100,
+                  marginTop: 8, boxShadow: "0 40px 80px rgba(0,0,0,0.15)", padding: 32, border: "1px solid #e2e8f0"
+                }}>
+                  <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 24 }}>
+                    <button onClick={() => setCurrentMonth(new Date(currentMonth.getFullYear(), currentMonth.getMonth() - 1))} style={{ background: "none", border: "none", cursor: "pointer" }}><ChevronLeft size={20} /></button>
+                    <span style={{ fontSize: 14, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.1em" }}>{currentMonth.toLocaleString('default', { month: 'long', year: 'numeric' })}</span>
+                    <button onClick={() => setCurrentMonth(new Date(currentMonth.getFullYear(), currentMonth.getMonth() + 1))} style={{ background: "none", border: "none", cursor: "pointer" }}><ChevronRight size={20} /></button>
+                  </div>
+                  <div style={{ display: "grid", gridTemplateColumns: "repeat(7, 1fr)", gap: 4 }}>
+                    {["Su", "Mo", "Tu", "We", "Th", "Fr", "Sa"].map(day => <div key={day} style={{ textAlign: "center", fontSize: 10, fontWeight: 700, color: "#94a3b8", padding: "8px 0" }}>{day}</div>)}
+                    {getDaysInMonth(currentMonth).map((date, i) => (
+                      <div key={i} onClick={() => date && handleDateClick(date)} style={{
+                        aspectRatio: "1/1", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 13,
+                        cursor: date && date >= today ? "pointer" : "default",
+                        color: date && isSelected(date) ? "white" : (!date ? "transparent" : (date < today ? "#cbd5e1" : "#0f172a")),
+                        background: date && isSelected(date) ? "#0f172a" : (date && isInRange(date) ? "#f1f5f9" : "transparent"),
+                        fontWeight: date && (isSelected(date) || isInRange(date)) ? 700 : 400,
+                      }}>{date?.getDate()}</div>
+                    ))}
+                  </div>
+                </div>
+              )}
             </div>
-            <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
-              <label style={{ fontSize: 11, fontWeight: 700, letterSpacing: "0.1em", textTransform: "uppercase", color: "#64748b" }}>Departure</label>
-              <input type="date" value={checkOut} min={checkIn || today} onChange={(e) => setCheckOut(e.target.value)} required 
-                style={{ border: "1px solid #e2e8f0", padding: "16px", outline: "none", fontSize: 14, color: "#0f172a", borderRadius: 0, background: "#f8fafc" }} />
-            </div>
-          </div>
-          <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
-            <label style={{ fontSize: 11, fontWeight: 700, letterSpacing: "0.1em", textTransform: "uppercase", color: "#64748b" }}>Guests</label>
-            <div style={{ display: "flex", alignItems: "center", gap: 16, border: "1px solid #e2e8f0", padding: "8px 16px", background: "#f8fafc" }}>
-              <button type="button" onClick={() => setGuests(Math.max(1, guests - 1))} style={{ width: 40, height: 40, background: "white", border: "1px solid #e2e8f0", cursor: "pointer", fontSize: 20, color: "#0f172a", display: "flex", alignItems: "center", justifyContent: "center" }}>−</button>
-              <span style={{ flex: 1, textAlign: "center", fontSize: 15, fontWeight: 600, color: "#0f172a" }}>{guests} {guests === 1 ? "Guest" : "Guests"}</span>
-              <button type="button" onClick={() => setGuests(Math.min(10, guests + 1))} style={{ width: 40, height: 40, background: "white", border: "1px solid #e2e8f0", cursor: "pointer", fontSize: 20, color: "#0f172a", display: "flex", alignItems: "center", justifyContent: "center" }}>+</button>
+
+            <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+              <label style={{ fontSize: 11, fontWeight: 700, letterSpacing: "0.1em", textTransform: "uppercase", color: "#64748b" }}>Guests</label>
+              <div style={{ display: "flex", alignItems: "center", gap: 16, border: "1px solid #e2e8f0", padding: "12px 24px", background: "#f8fafc" }}>
+                <button onClick={() => setGuests(Math.max(1, guests - 1))} style={{ width: 40, height: 40, background: "white", border: "1px solid #e2e8f0", cursor: "pointer", fontSize: 20 }}>−</button>
+                <div style={{ flex: 1, textAlign: "center", display: "flex", alignItems: "center", justifyContent: "center", gap: 12 }}>
+                  <Users size={18} color="#b2a384" />
+                  <span style={{ fontSize: 16, fontWeight: 700 }}>{guests} {guests === 1 ? "Guest" : "Guests"}</span>
+                </div>
+                <button onClick={() => setGuests(Math.min(12, guests + 1))} style={{ width: 40, height: 40, background: "white", border: "1px solid #e2e8f0", cursor: "pointer", fontSize: 20 }}>+</button>
+              </div>
             </div>
           </div>
         </div>
 
-        {/* Details card */}
+        {/* Guest Info Card */}
         <div style={{ background: "white", padding: 48, border: "1px solid #f1f5f9", boxShadow: "0 4px 20px rgba(0,0,0,0.02)" }}>
           <h3 style={{ fontSize: 12, fontWeight: 700, letterSpacing: "0.15em", textTransform: "uppercase", color: "#94a3b8", marginBottom: 32 }}>Guest Information</h3>
-          <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
+          <form id="booking-form" onSubmit={handleSubmit} style={{ display: "flex", flexDirection: "column", gap: 24 }}>
             <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
               <label style={{ fontSize: 11, fontWeight: 700, letterSpacing: "0.1em", textTransform: "uppercase", color: "#64748b" }}>Full Name</label>
               <input type="text" value={name} onChange={(e) => setName(e.target.value)} placeholder="Enter your name" required 
@@ -130,67 +228,35 @@ function BookingForm() {
               <textarea value={message} onChange={(e) => setMessage(e.target.value)} rows={3} placeholder="Tell us about your requirements..." 
                 style={{ border: "1px solid #e2e8f0", padding: "16px", outline: "none", fontSize: 14, color: "#0f172a", borderRadius: 0, background: "#f8fafc", resize: "none" }} />
             </div>
-          </div>
-        </div>
-      </form>
-
-      {/* RIGHT — price summary sticky */}
-      <div style={{ position: "sticky", top: 120 }}>
-        <div style={{ borderRadius: 0, overflow: "hidden", aspectRatio: "16/9", marginBottom: 32, background: "#f1f5f9", position: "relative", boxShadow: "0 20px 40px rgba(0,0,0,0.05)" }}>
-          <Image src="/photos/0J6A0268.JPG" alt="Seaside Stories Villa" fill style={{ objectFit: "cover" }} sizes="480px" />
-        </div>
-
-        <div style={{ background: "white", padding: 40, border: "1px solid #f1f5f9", boxShadow: "0 40px 80px -20px rgba(0,0,0,0.08)" }}>
-          <div style={{ display: "flex", alignItems: "baseline", justifyContent: "space-between", marginBottom: 32, borderBottom: "1px solid #f1f5f9", paddingBottom: 20 }}>
-            <h3 className="heading-md" style={{ fontSize: 24, margin: 0 }}>Summary</h3>
-            <span style={{ fontSize: 12, color: "#94a3b8", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.05em" }}>Preliminary</span>
-          </div>
-
-          {nights === 0 ? (
-            <p style={{ color: "#94a3b8", textAlign: "center", padding: "40px 0", fontSize: 15, fontWeight: 300 }}>Select dates to calculate price</p>
-          ) : !isValid ? (
-            <p style={{ color: "#ef4444", textAlign: "center", padding: "40px 0", fontSize: 15, fontWeight: 500 }}>Minimum stay: {MIN_NIGHTS} nights</p>
-          ) : (
-            <>
-              <div style={{ display: "flex", flexDirection: "column", gap: 16, marginBottom: 32 }}>
-                <div style={{ display: "flex", justifyContent: "space-between", fontSize: 15, color: "#475569" }}>
-                  <span>₹{PRICE_PER_NIGHT.toLocaleString()} × {nights} Nights</span>
-                  <span style={{ fontWeight: 600, color: "#0f172a" }}>₹{subtotal.toLocaleString()}</span>
-                </div>
-                <div style={{ display: "flex", justifyContent: "space-between", fontSize: 15, color: "#475569" }}>
-                  <span>Service & Cleaning</span>
-                  <span style={{ fontWeight: 600, color: "#0f172a" }}>₹{CLEANING_FEE.toLocaleString()}</span>
-                </div>
-                <div style={{ borderTop: "1px solid #e2e8f0", paddingTop: 20, marginTop: 4, display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-                  <span style={{ fontWeight: 700, fontSize: 18, color: "#0f172a" }}>Estimated Total</span>
-                  <span style={{ fontWeight: 700, fontSize: 28, color: "#0f172a" }}>₹{total.toLocaleString()}</span>
-                </div>
-              </div>
-            </>
-          )}
-
-          {error && (
-            <div style={{ background: "#fef2f2", padding: "16px", marginBottom: 24, color: "#b91c1c", fontSize: 14, borderLeft: "4px solid #ef4444" }}>
-              {error}
-            </div>
-          )}
-
-          <button
-            type="submit"
-            form="booking-form"
-            disabled={!isValid}
-            className="btn btn-dark"
-            style={{ width: "100%", padding: "20px", opacity: !isValid ? 0.5 : 1 }}
-          >
-            Request to Book
-          </button>
-
-          <p style={{ textAlign: "center", fontSize: 12, color: "#94a3b8", marginTop: 24, fontWeight: 300 }}>
-            Confirmation will be sent via WhatsApp.
-          </p>
+          </form>
         </div>
       </div>
 
+      {/* RIGHT — sticky summary */}
+      <div style={{ position: "sticky", top: 120 }}>
+        <div style={{ background: "white", padding: 40, border: "1px solid #f1f5f9", boxShadow: "0 40px 80px -20px rgba(0,0,0,0.08)" }}>
+          <h3 className="heading-md" style={{ fontSize: 24, marginBottom: 32, borderBottom: "1px solid #f1f5f9", paddingBottom: 20 }}>Summary</h3>
+          {nights === 0 ? <p style={{ color: "#94a3b8", textAlign: "center", padding: "40px 0", fontSize: 15, fontWeight: 300 }}>Select dates to calculate price</p> : (
+            <div style={{ display: "flex", flexDirection: "column", gap: 16, marginBottom: 32 }}>
+              <div style={{ display: "flex", justifyContent: "space-between", fontSize: 15, color: "#475569" }}>
+                <span>₹{PRICE_PER_NIGHT.toLocaleString()} × {nights} Nights</span>
+                <span style={{ fontWeight: 600, color: "#0f172a" }}>₹{subtotal.toLocaleString()}</span>
+              </div>
+              <div style={{ display: "flex", justifyContent: "space-between", fontSize: 15, color: "#475569" }}>
+                <span>Service & Cleaning</span>
+                <span style={{ fontWeight: 600, color: "#0f172a" }}>₹{CLEANING_FEE.toLocaleString()}</span>
+              </div>
+              <div style={{ borderTop: "1px solid #e2e8f0", paddingTop: 20, marginTop: 4, display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+                <span style={{ fontWeight: 700, fontSize: 18, color: "#0f172a" }}>Estimated Total</span>
+                <span style={{ fontWeight: 700, fontSize: 28, color: "#0f172a" }}>₹{total.toLocaleString()}</span>
+              </div>
+            </div>
+          )}
+          {error && <div style={{ background: "#fef2f2", padding: "16px", marginBottom: 24, color: "#b91c1c", fontSize: 14, borderLeft: "4px solid #ef4444" }}>{error}</div>}
+          <button type="submit" form="booking-form" disabled={!isValid} className="btn btn-dark" style={{ width: "100%", padding: "20px", opacity: !isValid ? 0.5 : 1 }}>Request to Book</button>
+          <p style={{ textAlign: "center", fontSize: 12, color: "#94a3b8", marginTop: 24, fontWeight: 300 }}>Confirmation will be sent via WhatsApp.</p>
+        </div>
+      </div>
       <style>{`
         @media (max-width: 1024px) {
           div[style*="grid-template-columns: 1.2fr"] { grid-template-columns: 1fr !important; gap: 48px !important; }
@@ -206,18 +272,14 @@ export default function BookPage() {
     <>
       <Navbar />
       <main style={{ paddingTop: 80, minHeight: "100vh", background: "#f8fafc" }}>
-        {/* Header */}
         <div style={{ background: "#ffffff", borderBottom: "1px solid #f1f5f9", padding: "100px 0 80px" }}>
           <div className="container">
             <p className="label-tag">Reservation</p>
             <h1 className="heading-xl">Book your Stay</h1>
           </div>
         </div>
-
         <div className="container" style={{ padding: "80px 0" }}>
-          <Suspense fallback={<div style={{ textAlign: "center", color: "#94a3b8", padding: "100px" }}>Preparing form…</div>}>
-            <BookingForm />
-          </Suspense>
+          <Suspense fallback={<div style={{ textAlign: "center", padding: "100px" }}>Preparing form…</div>}><BookingForm /></Suspense>
         </div>
       </main>
       <Footer />

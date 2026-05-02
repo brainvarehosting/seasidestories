@@ -45,7 +45,7 @@ export default function Home() {
         <RoomsSection />
         
         {/* Full-bleed photo break — editorial moment */}
-        <div style={{ position: "relative", height: "80vh", overflow: "hidden", minHeight: 600 }}>
+        <div className="photo-break" style={{ position: "relative", height: "80vh", overflow: "hidden", minHeight: 600 }}>
           <Image
             src="/photos/0J6A0284.JPG"
             alt="Seaside Stories Exterior"
@@ -87,7 +87,7 @@ export default function Home() {
               <h2 className="heading-lg">Loved by <i style={{ color: "#b2a384" }}>Travelers</i></h2>
             </div>
 
-            <div className="reviews-grid" style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 40 }}>
+            <div className="reviews-grid">
               {reviews.map((r) => (
                 <div key={r.name} style={{ background: "white", padding: 48, boxShadow: "0 4px 20px rgba(0,0,0,0.02)", display: "flex", flexDirection: "column" }}>
                   {/* Stars */}
@@ -115,19 +115,10 @@ export default function Home() {
               ))}
             </div>
           </div>
-
-          <style>{`
-            @media (max-width: 1024px) {
-              .reviews-grid { grid-template-columns: 1fr 1fr !important; }
-            }
-            @media (max-width: 768px) {
-              .reviews-grid { grid-template-columns: 1fr !important; }
-            }
-          `}</style>
         </section>
 
         {/* Final CTA — professional, luxury dark */}
-        <section style={{
+        <section className="final-cta" style={{
           background: "#0f172a", padding: "160px 0",
           display: "flex", alignItems: "center", justifyContent: "center",
           position: "relative", overflow: "hidden"
@@ -174,6 +165,16 @@ export default function Home() {
               border-color: #b2a384 !important;
               background: rgba(178,163,132,0.1) !important;
               color: #b2a384 !important;
+            }
+            @media (max-width: 768px) {
+              .final-cta { padding: 100px 0 !important; }
+              .photo-break { height: 60vh !important; min-height: 400px !important; }
+            }
+            @media (max-width: 480px) {
+              .final-cta { padding: 72px 0 !important; }
+              .final-cta div[style*="display: flex"][style*="gap: 24px"] { flex-direction: column !important; align-items: stretch !important; }
+              .final-cta a { text-align: center !important; justify-content: center !important; }
+              .photo-break { height: 50vh !important; min-height: 320px !important; }
             }
           `}</style>
         </section>

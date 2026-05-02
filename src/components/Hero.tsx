@@ -1,7 +1,6 @@
 "use client";
 import { useEffect, useRef } from "react";
 import Link from "next/link";
-import Image from "next/image";
 import { ChevronDown } from "lucide-react";
 
 export default function Hero() {
@@ -42,13 +41,13 @@ export default function Hero() {
       }} />
 
       {/* Content Container */}
-      <div style={{
+      <div className="hero-content" style={{
         position: "absolute", inset: 0, display: "flex", flexDirection: "column",
         alignItems: "center", justifyContent: "center", textAlign: "center", padding: "0 24px",
         paddingBottom: 120,
       }}>
         {/* Subtle Location Tag */}
-        <div className="reveal" style={{
+        <div style={{
           display: "inline-flex", alignItems: "center", gap: 10,
           color: "#b2a384", marginBottom: 32, letterSpacing: "0.25em",
           fontSize: 12, fontWeight: 600, textTransform: "uppercase"
@@ -73,7 +72,7 @@ export default function Hero() {
           Immerse yourself in the ultimate beachfront luxury. A private sanctuary designed for the discerning traveler.
         </p>
 
-        <div style={{ display: "flex", gap: 20, flexWrap: "wrap", justifyContent: "center" }}>
+        <div className="hero-cta" style={{ display: "flex", gap: 20, flexWrap: "wrap", justifyContent: "center" }}>
           <Link href="/book" className="btn btn-accent" style={{ padding: "18px 48px" }}>
             Check Availability
           </Link>
@@ -138,10 +137,16 @@ export default function Hero() {
       <style>{`
         @media (max-width: 1024px) {
           .hero-search-bar { display: none !important; }
+          .hero-content { padding-bottom: 40px !important; }
         }
         @media (max-width: 768px) {
-          .heading-xl { font-size: 44px !important; line-height: 1.1 !important; }
           .hero-search-bar { display: none !important; }
+          .hero-content { padding-bottom: 40px !important; padding-left: 20px !important; padding-right: 20px !important; }
+        }
+        @media (max-width: 480px) {
+          .hero-content { padding-bottom: 24px !important; }
+          .hero-cta { flex-direction: column !important; align-items: stretch !important; }
+          .hero-cta a { text-align: center !important; justify-content: center !important; }
         }
         @keyframes bounce {
           0%, 100% { transform: translateY(0); }

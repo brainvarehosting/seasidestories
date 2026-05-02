@@ -24,15 +24,9 @@ export default function About() {
   return (
     <section id="about" className="section" style={{ background: "#ffffff" }} ref={ref}>
       <div className="container">
-        <div style={{
-          display: "grid",
-          gridTemplateColumns: "1fr 1.1fr",
-          gap: 100,
-          alignItems: "center",
-        }}>
+        <div className="about-grid">
           {/* Images column */}
           <div className="reveal" style={{ position: "relative" }}>
-            {/* Main image */}
             <div style={{
               borderRadius: 4, overflow: "hidden",
               aspectRatio: "4/5",
@@ -44,12 +38,12 @@ export default function About() {
                 alt="Seaside Stories Master Suite"
                 fill
                 style={{ objectFit: "cover" }}
-                sizes="(max-width: 768px) 100vw, 50vw"
+                sizes="(max-width: 1024px) 100vw, 50vw"
               />
             </div>
 
-            {/* Floating detail image */}
-            <div style={{
+            {/* Floating detail image — hidden on mobile via CSS class */}
+            <div className="about-float" style={{
               position: "absolute", bottom: -50, right: -50,
               width: 240, height: 300,
               borderRadius: 4, overflow: "hidden",
@@ -81,19 +75,16 @@ export default function About() {
             </p>
 
             {/* Stats row */}
-            <div style={{ 
-              display: "grid", gridTemplateColumns: "repeat(3, 1fr)", 
-              gap: 32, marginBottom: 56, paddingTop: 40, borderTop: "1px solid #e2e8f0" 
-            }}>
+            <div className="about-stats-grid" style={{ marginBottom: 56, paddingTop: 40, borderTop: "1px solid #e2e8f0" }}>
               {stats.map((s) => (
                 <div key={s.label}>
-                  <div style={{ 
-                    fontFamily: "'Playfair Display', serif", 
-                    fontSize: 42, color: "#0f172a", marginBottom: 4 
+                  <div style={{
+                    fontFamily: "'Playfair Display', serif",
+                    fontSize: 42, color: "#0f172a", marginBottom: 4
                   }}>{s.value}</div>
-                  <div style={{ 
-                    fontSize: 11, color: "#94a3b8", fontWeight: 700, 
-                    textTransform: "uppercase", letterSpacing: "0.15em" 
+                  <div style={{
+                    fontSize: 11, color: "#94a3b8", fontWeight: 700,
+                    textTransform: "uppercase", letterSpacing: "0.15em"
                   }}>{s.label}</div>
                 </div>
               ))}
@@ -103,12 +94,6 @@ export default function About() {
           </div>
         </div>
       </div>
-
-      <style>{`
-        @media (max-width: 900px) {
-          #about .container > div { grid-template-columns: 1fr !important; gap: 48px !important; }
-        }
-      `}</style>
     </section>
   );
 }

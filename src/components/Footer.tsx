@@ -15,12 +15,12 @@ export default function Footer() {
     <footer style={{ background: "#0f172a", color: "white", padding: "100px 0 40px" }}>
       <div className="container">
         {/* Top grid */}
-        <div style={{ display: "grid", gridTemplateColumns: "1.5fr 1fr 1fr 1fr", gap: 64, marginBottom: 80, paddingBottom: 64, borderBottom: "1px solid rgba(255,255,255,0.05)" }}>
+        <div className="footer-grid" style={{ marginBottom: 80, paddingBottom: 64, borderBottom: "1px solid rgba(255,255,255,0.05)" }}>
           {/* Brand */}
           <div>
             <div style={{ display: "flex", alignItems: "center", gap: 16, marginBottom: 24 }}>
               <div style={{
-                width: 44, height: 44, borderRadius: 0, border: "1px solid rgba(255,255,255,0.15)",
+                width: 44, height: 44, border: "1px solid rgba(255,255,255,0.15)",
                 display: "flex", alignItems: "center", justifyContent: "center",
               }}>
                 <Image src="/logo.svg" alt="Seaside Stories" width={28} height={28}
@@ -59,22 +59,14 @@ export default function Footer() {
           <p style={{ color: "rgba(255,255,255,0.3)", fontSize: 13, fontWeight: 300 }}>
             © {year} Seaside Stories Villa. All rights reserved.
           </p>
-          <div style={{ display: "flex", gap: 32 }}>
-             <p style={{ color: "rgba(255,255,255,0.3)", fontSize: 13, display: "flex", alignItems: "center", gap: 8, fontWeight: 300 }}>
-              Made with <Heart size={12} color="#b2a384" strokeWidth={1} /> in Kerala
-            </p>
-          </div>
+          <p style={{ color: "rgba(255,255,255,0.3)", fontSize: 13, display: "flex", alignItems: "center", gap: 8, fontWeight: 300 }}>
+            Made with <Heart size={12} color="#b2a384" strokeWidth={1} /> in Kerala
+          </p>
         </div>
       </div>
 
       <style>{`
         .footer-link:hover { color: #b2a384 !important; transform: translateX(4px); }
-        @media (max-width: 1024px) {
-          footer .container > div:first-child { grid-template-columns: 1fr 1fr !important; gap: 48px !important; }
-        }
-        @media (max-width: 640px) {
-          footer .container > div:first-child { grid-template-columns: 1fr !important; }
-        }
       `}</style>
     </footer>
   );

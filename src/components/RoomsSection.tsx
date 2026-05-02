@@ -47,32 +47,52 @@ export default function RoomsSection() {
           </p>
         </div>
 
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(2, 1fr)", gap: 40 }}>
+        <div className="rooms-grid">
           {rooms.map((room, i) => {
             const isFullVilla = i === 0;
             return (
-              <div key={room.title} className="reveal" style={{ 
-                transitionDelay: `${i * 0.2}s`,
-                gridColumn: isFullVilla ? "span 2" : undefined
-              }}>
-                <div style={{ 
-                  background: "#ffffff",
-                  display: "flex", 
-                  flexDirection: isFullVilla ? "row" : "column",
-                  overflow: "hidden",
-                  boxShadow: "0 4px 20px rgba(0,0,0,0.03)",
-                  height: "100%",
-                }}>
-                  <div style={{ position: "relative", height: isFullVilla ? 500 : 400, flex: isFullVilla ? 1.4 : "none" }}>
+              <div
+                key={room.title}
+                className="reveal"
+                style={{
+                  transitionDelay: `${i * 0.2}s`,
+                  gridColumn: isFullVilla ? "span 2" : undefined
+                }}
+              >
+                <div
+                  className={`room-card ${!isFullVilla ? "room-card--column" : ""}`}
+                  style={{
+                    background: "#ffffff",
+                    boxShadow: "0 4px 20px rgba(0,0,0,0.03)",
+                    height: "100%",
+                  }}
+                >
+                  <div
+                    className="room-card-image"
+                    style={{
+                      position: "relative",
+                      height: isFullVilla ? 500 : 400,
+                      flex: isFullVilla ? 1.4 : "none"
+                    }}
+                  >
                     <Image
                       src={room.img}
                       alt={room.title}
                       fill
                       style={{ objectFit: "cover" }}
-                      sizes={isFullVilla ? "100vw" : "(max-width: 768px) 100vw, 50vw"}
+                      sizes={isFullVilla ? "100vw" : "(max-width: 900px) 100vw, 50vw"}
                     />
                   </div>
-                  <div style={{ padding: isFullVilla ? 60 : 40, flex: 1, display: "flex", flexDirection: "column", justifyContent: "center" }}>
+                  <div
+                    className="room-card-content"
+                    style={{
+                      padding: isFullVilla ? 60 : 40,
+                      flex: 1,
+                      display: "flex",
+                      flexDirection: "column",
+                      justifyContent: "center"
+                    }}
+                  >
                     <h3 className="heading-md" style={{ marginBottom: 20, fontSize: 32 }}>{room.title}</h3>
                     <p style={{ color: "#64748b", fontSize: 16, lineHeight: 1.8, marginBottom: 32, flex: 1, fontWeight: 300 }}>
                       {room.description}
@@ -95,15 +115,6 @@ export default function RoomsSection() {
           })}
         </div>
       </div>
-
-      <style>{`
-        @media (max-width: 900px) {
-          #rooms .container > div:last-child { grid-template-columns: 1fr !important; }
-          #rooms .reveal > div { flex-direction: column !important; }
-          #rooms .reveal > div > div:first-child { height: 300px !important; flex: none !important; }
-          #rooms .reveal > div > div:last-child { padding: 32px !important; }
-        }
-      `}</style>
     </section>
   );
 }

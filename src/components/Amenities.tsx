@@ -35,7 +35,7 @@ export default function Amenities() {
   return (
     <section id="amenities" className="section" style={{ background: "#ffffff" }}>
       <div className="container">
-        <div style={{ display: "grid", gridTemplateColumns: "1fr 2.2fr", gap: 100, alignItems: "start" }}>
+        <div className="amenities-outer">
           {/* Left: heading */}
           <div>
             <p className="label-tag">Curated Amenities</p>
@@ -48,7 +48,7 @@ export default function Amenities() {
           </div>
 
           {/* Right: amenities grid */}
-          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: 48, paddingTop: 12 }}>
+          <div className="amenities-inner">
             {cols.map((col) => (
               <div key={col.heading}>
                 <p style={{
@@ -63,8 +63,8 @@ export default function Amenities() {
                   {col.items.map(({ icon: Icon, label }) => (
                     <div key={label} style={{ display: "flex", alignItems: "center", gap: 16 }}>
                       <div style={{
-                        width: 40, height: 40, borderRadius: 0,
-                        background: "#f8fafc", 
+                        width: 40, height: 40,
+                        background: "#f8fafc",
                         display: "flex", alignItems: "center", justifyContent: "center",
                         flexShrink: 0, border: "1px solid #f1f5f9"
                       }}>
@@ -79,16 +79,6 @@ export default function Amenities() {
           </div>
         </div>
       </div>
-
-      <style>{`
-        @media (max-width: 1024px) {
-          #amenities .container > div { grid-template-columns: 1fr !important; gap: 64px !important; }
-          #amenities .container > div > div:last-child { grid-template-columns: 1fr 1fr !important; }
-        }
-        @media (max-width: 640px) {
-          #amenities .container > div > div:last-child { grid-template-columns: 1fr !important; gap: 48px !important; }
-        }
-      `}</style>
     </section>
   );
 }
