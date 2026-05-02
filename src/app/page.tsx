@@ -89,7 +89,7 @@ export default function Home() {
 
             <div className="reviews-grid">
               {reviews.map((r) => (
-                <div key={r.name} style={{ background: "white", padding: 48, boxShadow: "0 4px 20px rgba(0,0,0,0.02)", display: "flex", flexDirection: "column" }}>
+                <div key={r.name} className="review-card" style={{ background: "white", boxShadow: "0 4px 20px rgba(0,0,0,0.02)", display: "flex", flexDirection: "column" }}>
                   {/* Stars */}
                   <div style={{ display: "flex", gap: 4, marginBottom: 32 }}>
                     {Array.from({ length: r.stars }).map((_, i) => (
@@ -140,7 +140,7 @@ export default function Home() {
             <p style={{ color: "rgba(255,255,255,0.7)", fontSize: 20, lineHeight: 1.8, marginBottom: 56, fontWeight: 300 }}>
               Experience Kerala&apos;s most exclusive beach retreat. Limited dates available for private bookings.
             </p>
-            <div style={{ display: "flex", gap: 24, justifyContent: "center", flexWrap: "wrap" }}>
+            <div className="cta-btns" style={{ display: "flex", gap: 24, justifyContent: "center", flexWrap: "wrap" }}>
               <Link href="/book" className="btn btn-accent" style={{ padding: "20px 60px" }}>
                 Book Your Stay
               </Link>
@@ -161,20 +161,16 @@ export default function Home() {
           </div>
 
           <style>{`
-            .btn-whatsapp:hover {
-              border-color: #b2a384 !important;
-              background: rgba(178,163,132,0.1) !important;
-              color: #b2a384 !important;
-            }
+            .btn-whatsapp:hover { border-color: #b2a384 !important; background: rgba(178,163,132,0.1) !important; color: #b2a384 !important; }
             @media (max-width: 768px) {
-              .final-cta { padding: 100px 0 !important; }
-              .photo-break { height: 60vh !important; min-height: 400px !important; }
+              .final-cta { padding: 80px 0 !important; }
+              .photo-break { height: 55vh !important; min-height: 360px !important; }
             }
             @media (max-width: 480px) {
-              .final-cta { padding: 72px 0 !important; }
-              .final-cta div[style*="display: flex"][style*="gap: 24px"] { flex-direction: column !important; align-items: stretch !important; }
-              .final-cta a { text-align: center !important; justify-content: center !important; }
-              .photo-break { height: 50vh !important; min-height: 320px !important; }
+              .final-cta { padding: 56px 0 !important; }
+              .cta-btns { flex-direction: column !important; align-items: stretch !important; }
+              .cta-btns a, .cta-btns button { width: 100% !important; justify-content: center !important; }
+              .photo-break { height: 45vh !important; min-height: 280px !important; }
             }
           `}</style>
         </section>

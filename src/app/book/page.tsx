@@ -126,7 +126,7 @@ function BookingForm() {
   );
 
   return (
-    <div style={{ display: "grid", gridTemplateColumns: "1.2fr 1fr", gap: 80, alignItems: "start" }}>
+    <div className="book-form-grid">
       {/* LEFT — form */}
       <div id="booking-form-container" style={{ display: "flex", flexDirection: "column", gap: 40 }}>
         {/* Premium Calendar Selector Card */}
@@ -172,7 +172,7 @@ function BookingForm() {
                     <span style={{ fontSize: 14, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.1em" }}>{currentMonth.toLocaleString('default', { month: 'long', year: 'numeric' })}</span>
                     <button onClick={() => setCurrentMonth(new Date(currentMonth.getFullYear(), currentMonth.getMonth() + 1))} style={{ background: "none", border: "none", cursor: "pointer" }}><ChevronRight size={20} /></button>
                   </div>
-                  <div style={{ display: "grid", gridTemplateColumns: "repeat(7, 1fr)", gap: 4 }}>
+                  <div className="book-date-grid">
                     {["Su", "Mo", "Tu", "We", "Th", "Fr", "Sa"].map(day => <div key={day} style={{ textAlign: "center", fontSize: 10, fontWeight: 700, color: "#94a3b8", padding: "8px 0" }}>{day}</div>)}
                     {getDaysInMonth(currentMonth).map((date, i) => (
                       <div key={i} onClick={() => date && handleDateClick(date)} style={{
@@ -211,7 +211,7 @@ function BookingForm() {
               <input type="text" value={name} onChange={(e) => setName(e.target.value)} placeholder="Enter your name" required 
                 style={{ border: "1px solid #e2e8f0", padding: "16px", outline: "none", fontSize: 14, color: "#0f172a", borderRadius: 0, background: "#f8fafc" }} />
             </div>
-            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 24 }}>
+            <div className="book-detail-grid">
               <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
                 <label style={{ fontSize: 11, fontWeight: 700, letterSpacing: "0.1em", textTransform: "uppercase", color: "#64748b" }}>Email</label>
                 <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="you@example.com" required 
@@ -233,7 +233,7 @@ function BookingForm() {
       </div>
 
       {/* RIGHT — sticky summary */}
-      <div style={{ position: "sticky", top: 120 }}>
+      <div className="book-summary-sticky">
         <div style={{ background: "white", padding: 40, border: "1px solid #f1f5f9", boxShadow: "0 40px 80px -20px rgba(0,0,0,0.08)" }}>
           <h3 className="heading-md" style={{ fontSize: 24, marginBottom: 32, borderBottom: "1px solid #f1f5f9", paddingBottom: 20 }}>Summary</h3>
           {nights === 0 ? <p style={{ color: "#94a3b8", textAlign: "center", padding: "40px 0", fontSize: 15, fontWeight: 300 }}>Select dates to calculate price</p> : (
